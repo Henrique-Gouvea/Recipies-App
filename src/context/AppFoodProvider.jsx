@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AppFoodContext from './AppFoodContext';
 
 function AppFoodProvider({ children }) {
-  const [emailLogin, setEmailLogin] = useState({ email: '' });
+  const [emailLogin, setEmailLogin] = useState('');
 
   const stateValue = {
     emailLogin,
