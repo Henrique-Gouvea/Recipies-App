@@ -1,10 +1,13 @@
 import React from 'react';
+import Header from '../components/Header';
 
-const Foods = () => (
-  <>
-    <p>dasd</p>
-    <h1>Foods</h1>
-  </>
-);
+function Foods() {
+  return (
+    <>
+      <Header />
+      <h1>Foods</h1>
+    </>
+  );
+}
 
 export default Foods;
