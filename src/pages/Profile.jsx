@@ -4,7 +4,7 @@ import Header from '../components/Header';
 function Profile() {
   return (
     <>
-      <Header title="Profile" btnSearch />
+      <Header title="Profile" />
       <h1>Profile</h1>
     </>
   );
