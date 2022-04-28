@@ -27,8 +27,6 @@ function AppFoodProvider({ children }) {
     apiRequest();
   }, []);
 
-  console.log(drinkGlasses);
-
   const stateValue = {
     emailLogin,
     setEmailLogin,
