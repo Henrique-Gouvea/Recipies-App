@@ -1,7 +1,6 @@
 import React from 'react';
 
 function Cards({FoodOrDrink, food}) {
-  if(FoodOrDrink)console.log(FoodOrDrink);
   return (
     <>
       {FoodOrDrink?.slice(0,12)
