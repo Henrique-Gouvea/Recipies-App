@@ -2,6 +2,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import AppFoodContext from '../context/AppFoodContext';
 import ButtonCategory from '../components/ButtonCategory';
@@ -20,6 +22,8 @@ function Foods({ history }) {
         {recipeFoods ? <Cards FoodOrDrink={ recipeFoods } /> : ''}
       </div>
       <ButtonCategory categories={ foodCategories } food />
+      <h1>Foods</h1>
+      <Footer />
     </>
   );
 }

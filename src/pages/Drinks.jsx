@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import ButtonCategory from '../components/ButtonCategory';
+import React from 'react';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import AppFoodContext from '../context/AppFoodContext';
 import Cards from '../components/Cards';
@@ -18,6 +20,8 @@ function Drinks({ history }) {
         {recipeDrinks ? <Cards FoodOrDrink={ recipeDrinks } /> : ''}
       </div>
       <ButtonCategory categories={ drinkCategories } />
+      <h1>Drinks</h1>
+      <Footer />
     </>
   );
 }
