@@ -16,7 +16,7 @@ function Foods() {
     <>
       <Header title="Foods" btnSearch />
       {recipeFoods ? <Cards FoodOrDrink={ recipeFoods } /> : ''}
-      <ButtonCategory categories={ foodCategories } />
+      <ButtonCategory categories={ foodCategories } food />
     </>
   );
 }

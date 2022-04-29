@@ -3,17 +3,14 @@ import PropTypes from 'prop-types';
 import AppFoodContext from '../context/AppFoodContext';
 
 function Cards({ FoodOrDrink }) {
-  const { categoryClick } = useContext(AppFoodContext);
+  const { categoryClick, categoryArr } = useContext(AppFoodContext);
   const numberMaxCards = 12;
 
   return (
     <>
       <p>.</p>
       {FoodOrDrink
-      && FoodOrDrink
-        .filter((ForD) => (
-          categoryClick ? ForD.strCategory === categoryClick : ForD
-        ))
+      && (categoryClick.categorie && categoryArr ? categoryArr : FoodOrDrink)
         .map((ForD, index) => (
           <div key={ ForD.idMeal || ForD.idDrink }>
             <p data-testid={ `${index}-card-name` }>

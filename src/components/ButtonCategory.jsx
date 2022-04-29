@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import AppFoodContext from '../context/AppFoodContext';
 
-function ButtonCategory({ categories }) {
+function ButtonCategory({ categories, food }) {
   const {
     setCategoryClick,
   } = useContext(AppFoodContext);
@@ -31,7 +31,10 @@ function ButtonCategory({ categories }) {
               type="submit"
               value={ cat.strCategory }
               data-testid={ `${cat.strCategory}-category-filter` }
-              onClick={ ({ target }) => setCategoryClick(target.value) }
+              onClick={ ({ target }) => setCategoryClick({
+                categorie: target.value,
+                type: food ? 'food' : 'drink',
+              }) }
             >
               {cat.strCategory}
             </button>

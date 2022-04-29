@@ -16,7 +16,7 @@ function AppFoodProvider({ children }) {
   // const [drinkGlasses, setDrinkGlasses] = useState([]);
   const [recipeFoods, setRecipeFoods] = useState([]);
   const [recipeDrinks, setRecipeDrinks] = useState([]);
-  const [categoryClick, setCategoryClick] = useState('');
+  const [categoryClick, setCategoryClick] = useState({ categorie: '', type: '' });
   const [categoryArr, setCategoryArr] = useState([]);
 
   useEffect(() => {

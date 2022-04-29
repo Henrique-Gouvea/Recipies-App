@@ -1,13 +1,15 @@
 const filterApi = async (id) => {
-  if (id) {
-    console.log(id);
-    const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${id}`;
-    console.log(url);
+  if (id.categorie) {
+    let url = '';
+    if (id.type === 'food') {
+      url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${id.categorie}`;
+    } else url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${id.categorie}`;
     const response = await fetch(url);
-    console.log(response);
     const data = await response.json();
-    console.log(data);
-    return data;
+    if (id.type === 'food') {
+      return data.meals;
+    }
+    return data.drinks;
   }
 };
 
