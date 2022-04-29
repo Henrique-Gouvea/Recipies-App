@@ -4,6 +4,7 @@ import AppFoodContext from './AppFoodContext';
 import drinksAPI from '../services/drinksApi';
 import foodAPI from '../services/foodApi';
 import linkApi from '../services/linkApi';
+import filterApi from '../services/filterApi';
 
 function AppFoodProvider({ children }) {
   const [emailLogin, setEmailLogin] = useState('');
@@ -15,6 +16,8 @@ function AppFoodProvider({ children }) {
   // const [drinkGlasses, setDrinkGlasses] = useState([]);
   const [recipeFoods, setRecipeFoods] = useState([]);
   const [recipeDrinks, setRecipeDrinks] = useState([]);
+  const [categoryClick, setCategoryClick] = useState('');
+  const [categoryArr, setCategoryArr] = useState([]);
 
   useEffect(() => {
     // async function apiRequest() {
@@ -39,6 +42,11 @@ function AppFoodProvider({ children }) {
     // apiRequest();
   }, []);
 
+  useEffect(() => {
+    console.log(`${categoryClick} useEffect`);
+    filterApi(categoryClick).then((e) => setCategoryArr(e));
+  }, [categoryClick]);
+
   const stateValue = {
     emailLogin,
     setEmailLogin,
@@ -50,6 +58,10 @@ function AppFoodProvider({ children }) {
     // drinkGlasses,
     recipeFoods,
     recipeDrinks,
+    categoryClick,
+    setCategoryClick,
+    categoryArr,
+    setCategoryArr,
   };
 
   return (

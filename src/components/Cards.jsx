@@ -1,25 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
+import AppFoodContext from '../context/AppFoodContext';
 
-function Cards({FoodOrDrink, food}) {
+function Cards({ FoodOrDrink }) {
+  const { categoryClick } = useContext(AppFoodContext);
+  const numberMaxCards = 12;
+
   return (
     <>
-      {FoodOrDrink?.slice(0,12)
-      .map((ForD, index) => (
-        <div key={ food? ForD.idMeal : ForD.idDrink }>
-          <p data-testid={`${index}-card-name`}>
-              { food? ForD.strMeal : ForD.strDrink }
-          </p>
-          <img
-            data-testid={`${index}-card-img`}
-            src={ food? ForD.strMealThumb : ForD.strDrinkThumb }
-            alt={ food? ForD.strMeal : ForD.strDrink  } />
-          <p data-testid={`${index}-recipe-card`}>
+      <p>.</p>
+      {FoodOrDrink
+      && FoodOrDrink
+        .filter((ForD) => (
+          categoryClick ? ForD.strCategory === categoryClick : ForD
+        ))
+        .map((ForD, index) => (
+          <div key={ ForD.idMeal || ForD.idDrink }>
+            <p data-testid={ `${index}-card-name` }>
+              { ForD.strMeal || ForD.strDrink }
+            </p>
+            <img
+              data-testid={ `${index}-card-img` }
+              src={ ForD.strMealThumb || ForD.strDrinkThumb }
+              alt={ ForD.strMeal || ForD.strDrink }
+            />
+            <p data-testid={ `${index}-recipe-card` }>
               {ForD.strInstructions}
-          </p>
-        </div>
-      ))}
+            </p>
+          </div>
+        )).slice(0, numberMaxCards)}
     </>
   );
 }
+
+Cards.propTypes = {
+  FoodOrDrink: PropTypes.string,
+}.isRequired;
 
 export default Cards;

@@ -15,15 +15,7 @@ function Foods() {
   return (
     <>
       <Header title="Foods" btnSearch />
-      {recipeFoods ? <Cards FoodOrDrink={ recipeFoods } food /> : ''}
-      {recipeFoods?.slice(0,12)
-      .map((meal, index) => (
-        <div key={ meal.idMeal }>
-          <p data-testid={`${index}-card-name`}>{meal.strMeal}</p>
-          <img data-testid={`${index}-card-img`} src={ meal.strMealThumb } alt={ meal.strMeal } />
-          <p data-testid={`${index}-recipe-card`}>{meal.strInstructions}</p>
-        </div>
-      ))}
+      {recipeFoods ? <Cards FoodOrDrink={ recipeFoods } /> : ''}
       <ButtonCategory categories={ foodCategories } />
     </>
   );
