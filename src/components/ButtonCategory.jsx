@@ -4,21 +4,24 @@ import AppFoodContext from '../context/AppFoodContext';
 
 function ButtonCategory({ categories, food }) {
   const {
+    categoryClick,
     setCategoryClick,
   } = useContext(AppFoodContext);
   const limitButtonCategory = 5;
 
-  // const clickButtonCategory = ({ target: { value } }) => {
-  //   const ka = async () => {
-  //     console.log(value);
-  //     const a = `www.thecocktaildb.com/api/json/v1/1/filter.php?c=${value}`;
-  //     // const teste = await filterApi(value);
-  //     console.log(a);
-  //     const teste = await linkApi(a);
-  //     console.log(teste);
-  //   };
-  //   ka();
-  // };
+  const clickButtonCategory = ({ target }) => {
+    if (!categoryClick.categorie) {
+      setCategoryClick({
+        categorie: target.value,
+        type: food ? 'food' : 'drink',
+      });
+    } else {
+      setCategoryClick({
+        categorie: '',
+        type: '',
+      });
+    }
+  };
 
   return (
     <>
@@ -31,10 +34,7 @@ function ButtonCategory({ categories, food }) {
               type="submit"
               value={ cat.strCategory }
               data-testid={ `${cat.strCategory}-category-filter` }
-              onClick={ ({ target }) => setCategoryClick({
-                categorie: target.value,
-                type: food ? 'food' : 'drink',
-              }) }
+              onClick={ clickButtonCategory }
             >
               {cat.strCategory}
             </button>

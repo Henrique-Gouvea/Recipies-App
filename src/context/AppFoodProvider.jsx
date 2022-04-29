@@ -43,7 +43,7 @@ function AppFoodProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    console.log(`${categoryClick} useEffect`);
+    console.log(`${categoryClick.categorie} useEffect`);
     filterApi(categoryClick).then((e) => setCategoryArr(e));
   }, [categoryClick]);
 
