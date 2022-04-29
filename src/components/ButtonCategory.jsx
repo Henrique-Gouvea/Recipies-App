@@ -10,7 +10,7 @@ function ButtonCategory({ categories, food }) {
   const limitButtonCategory = 5;
 
   const clickButtonCategory = ({ target }) => {
-    if (!categoryClick.categorie) {
+    if (categoryClick.categorie !== target.value) {
       setCategoryClick({
         categorie: target.value,
         type: food ? 'food' : 'drink',
