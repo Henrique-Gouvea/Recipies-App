@@ -25,7 +25,6 @@ function ButtonCategory({ categories, food }) {
 
   return (
     <>
-      <p>-</p>
       {categories
         ? categories.slice(0, limitButtonCategory)
           .map((cat) => (
@@ -39,6 +38,14 @@ function ButtonCategory({ categories, food }) {
               {cat.strCategory}
             </button>
           )) : ''}
+      <button
+        type="submit"
+        value="All category"
+        data-testid="All-category-filter"
+        onClick={ () => setCategoryClick({ categorie: '', type: '' }) }
+      >
+        All category
+      </button>
     </>
   );
 }
