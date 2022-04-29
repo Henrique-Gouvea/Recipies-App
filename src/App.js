@@ -14,7 +14,7 @@ import FavoriteRecipes from './pages/FavoriteRecipes';
 import IngredientsDrinks from './pages/IngredientsDrinks';
 import IngredientsFoods from './pages/IngredientsFoods';
 import Nationalities from './pages/Nationalities';
-import FoodDetails from './pages/details/FoodDetails';
+import Details from './pages/details/Details';
 
 function App() {
   return (
@@ -32,7 +32,8 @@ function App() {
         <Route exact path="/explore/drinks/ingredients" component={ IngredientsDrinks } />
         <Route exact path="/explore/foods/ingredients" component={ IngredientsFoods } />
         <Route exact path="/explore/foods/nationalities" component={ Nationalities } />
-        <Route exact path="/foods/:id" component={ FoodDetails } />
+        <Route exact path="/foods/:id" component={ Details } />
+        <Route exact path="/drinks/:id" component={ Details } />
       </Switch>
     </div>
   );
