@@ -12,7 +12,9 @@ img {
 }
 
 .container {
-  width: 100%;
+  margin: 0;
+  padding: 0 0 50px;
+  width: 359px;
 }
 
 .carousel {
@@ -26,9 +28,14 @@ img {
 }
 
 .item {
-  width: 170px;
+  width: 180px;
 }
 
 .item img {
-  width: 165px;
+  width: 180px;
+}
+
+.start-recipe {
+  bottom: 0;
+  position: fixed;
 }

@@ -43,17 +43,27 @@ function FoodDetails() {
     return url.split(/(v=|youtu\.be\/)/)[2];
   }
 
+  function measure(index) {
+    const measureIndex = `${details[`strMeasure${index + 1}`]}`;
+    return measureIndex !== 'null' ? ` - ${measureIndex}` : '';
+  }
+
   return (
     <div>
       { details
         && (
           <>
-            <h2 data-testid="recipe-title">{details.strMeal || details.strDrink}</h2>
             <img
               data-testid="recipe-photo"
               src={ details.strMealThumb || details.strDrinkThumb }
               alt={ details.strMeal || details.strDrink }
             />
+            <h2 data-testid="recipe-title">{details.strMeal || details.strDrink}</h2>
+            <p
+              data-testid="recipe-category"
+            >
+              {details.strAlcoholic || details.strCategory}
+            </p>
             <button
               data-testid="share-btn"
               type="button"
@@ -66,7 +76,6 @@ function FoodDetails() {
             >
               Favorite
             </button>
-            <p data-testid="recipe-category">{details.strCategory}</p>
 
             <ul>
               { Object.keys(details)
@@ -78,7 +87,7 @@ function FoodDetails() {
                         key={ i }
                         data-testid={ `${i}-ingredient-name-and-measure` }
                       >
-                        { details[ingredient] }
+                        { `${details[ingredient]} ${measure(i)}` }
                       </li>
                     ) : null
                 ))}
