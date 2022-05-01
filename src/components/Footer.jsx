@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 
 function Footer() {
   const history = useHistory();
-  console.log(history);
   return (
     <div data-testid="footer" className="footer">
       <button
@@ -37,8 +36,8 @@ function Footer() {
 
 Footer.propTypes = {
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+    push: PropTypes.func,
+  }),
 }.isRequired;
 
 export default Footer;
