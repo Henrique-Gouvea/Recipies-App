@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import ButtonCategory from '../components/ButtonCategory';
-import React from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import AppFoodContext from '../context/AppFoodContext';
