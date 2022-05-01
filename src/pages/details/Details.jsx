@@ -39,7 +39,7 @@ function FoodDetails() {
     })();
   }, [ID, option, setDetails]);
 
-  function GetVideoID(url) {
+  function getVideoID(url) {
     return url.split(/(v=|youtu\.be\/)/)[2];
   }
 
@@ -89,7 +89,7 @@ function FoodDetails() {
                 <iframe
                   data-testid="video"
                   width="360"
-                  src={ `https://www.youtube.com/embed/${GetVideoID(details.strYoutube)}` }
+                  src={ `https://www.youtube.com/embed/${getVideoID(details.strYoutube)}` }
                   frameBorder="0"
                   allow="autoplay; encrypted-media"
                   allowFullScreen

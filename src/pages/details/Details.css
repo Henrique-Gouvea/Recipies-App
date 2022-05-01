@@ -10,3 +10,25 @@ h2 {
 img {
   width: 360px;
 }
+
+.container {
+  width: 100%;
+}
+
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  width: 170px;
+}
+
+.item img {
+  width: 165px;
+}
