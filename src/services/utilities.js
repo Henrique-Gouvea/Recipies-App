@@ -13,6 +13,7 @@ export function shareLink(setCopied) {
       setCopied(true);
     });
 }
+
 export function storageObj(detail, option) {
   const lessOne = -1;
   return {

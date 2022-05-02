@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import profileIcon from '../images/profileIcon.svg';
+import searchIcon from '../images/searchIcon.svg';
 
 function Header({ title, btnSearch }) {
   return (
-    <header>
+    <header className="header">
       <h1 data-testid="page-title">
         {title}
       </h1>
@@ -12,7 +14,7 @@ function Header({ title, btnSearch }) {
         data-testid="profile-top-btn"
         src="../images/profileIcon.svg"
       >
-        <img src="../images/profileIcon.svg" alt="profileIcon" />
+        <img src={ profileIcon } alt="profileIcon" />
         {/* Profile */}
       </button>
       {btnSearch
@@ -22,7 +24,7 @@ function Header({ title, btnSearch }) {
             data-testid="search-top-btn"
             src="../images/searchIcon.svg"
           >
-            <img src="../images/searchIcon.svg" alt="searchIcon" />
+            <img src={ searchIcon } alt="searchIcon" />
             {/* Search */}
           </button>
         )
