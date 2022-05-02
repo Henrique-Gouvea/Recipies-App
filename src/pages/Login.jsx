@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import AppFoodContext from '../context/AppFoodContext';
-// import foodAPI from '../services/foodApi';
-import drinksAPI from '../services/drinksApi';
 
 function Login({ history }) {
   const {
@@ -28,7 +26,7 @@ function Login({ history }) {
     localStorage.setItem('user', JSON.stringify({ email: emailLogin }));
     history.push('/foods');
   };
-  console.log(drinksAPI('g'));
+
   return (
     <label htmlFor="email-input">
       E-mail

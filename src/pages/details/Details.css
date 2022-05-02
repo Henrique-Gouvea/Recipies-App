@@ -1,0 +1,46 @@
+/* stylelint-disable linebreaks */
+body {
+  margin: 0 auto;
+}
+
+h2 {
+  text-align: center;
+}
+
+img {
+  width: 360px;
+}
+
+.container {
+  margin: 0;
+  padding: 0 0 50px;
+  width: 359.9px;
+}
+
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  width: 180px;
+}
+
+.item img {
+  width: 180px;
+}
+
+.start-recipe {
+  bottom: 0;
+  position: fixed;
+}
+
+.favorite img {
+  height: 20px;
+  width: 20px;
+}

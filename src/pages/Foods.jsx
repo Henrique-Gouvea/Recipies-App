@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import AppFoodContext from '../context/AppFoodContext';
@@ -18,7 +17,10 @@ function Foods({ history }) {
   return (
     <>
       <Header title="Foods" btnSearch />
-      <div onClick={ ({ target }) => history.push(`/foods/${target.className}`) }>
+      <div
+        aria-hidden="true"
+        onClick={ ({ target }) => history.push(`/foods/${target.className}`) }
+      >
         {recipeFoods ? <Cards FoodOrDrink={ recipeFoods } /> : ''}
       </div>
       <ButtonCategory categories={ foodCategories } food />
