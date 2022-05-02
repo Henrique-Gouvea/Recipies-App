@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import apiRequestByLink from '../../services/apiRequestByLink';
 import Recommendeds from './Recommendeds';
+import AppFoodContext from '../../context/AppFoodContext';
 import { getVideoID, measure } from '../../services/utilities';
 import './Details.css';
 import Buttons from './Buttons';
 
 function FoodDetails() {
-  const [details, setDetails] = useState('');
+  const { details, setDetails, recipeFoods, recipeDrinks } = useContext(AppFoodContext);
   const [recommendeds, setRecommendeds] = useState('');
   const history = useHistory();
   const option = history.location.pathname.replace(/[^a-zA-Z]+/g, '');
@@ -21,25 +22,20 @@ function FoodDetails() {
       const drinkData = await apiRequestByLink(
         `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${ID}`,
       );
-      const recFoods = await apiRequestByLink(
-        'https://www.themealdb.com/api/json/v1/1/search.php?s=',
-      );
-      const recDrinks = await apiRequestByLink(
-        'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
-      );
+
       const SIX = 6;
 
       switch (option) {
       case 'foods':
         setDetails(foodData.meals[0]);
-        setRecommendeds(recDrinks.drinks.slice(0, SIX));
+        setRecommendeds(recipeDrinks.slice(0, SIX));
         break;
       default:
         setDetails(drinkData.drinks[0]);
-        setRecommendeds(recFoods.meals.slice(0, SIX));
+        setRecommendeds(recipeFoods.slice(0, SIX));
       }
     })();
-  }, [ID, option, setDetails]);
+  }, [ID, option, recipeDrinks, recipeFoods, setDetails]);
 
   return (
     <div>
