@@ -1,3 +1,4 @@
+/* stylelint-disable linebreaks */
 .meals {
   align-items: center;
   background: #0fa36b;
@@ -23,6 +24,10 @@
   position: fixed;
   text-align: center;
   width: 100%;
+}
+
+.footer img, .header img {
+  width: 30px;
 }
 
 /*

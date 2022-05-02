@@ -15,7 +15,10 @@ function Drinks({ history }) {
   return (
     <>
       <Header title="Drinks" btnSearch />
-      <div onClick={ ({ target }) => history.push(`/drinks/${target.className}`) }>
+      <div
+        aria-hidden="true"
+        onClick={ ({ target }) => history.push(`/drinks/${target.className}`) }
+      >
         {recipeDrinks ? <Cards FoodOrDrink={ recipeDrinks } /> : ''}
       </div>
       <ButtonCategory categories={ drinkCategories } />
