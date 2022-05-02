@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function IngredientsCard({ FoodOrDrink }) {
+function IngredientsCard({ FoodOrDrink, food }) {
   console.log(FoodOrDrink);
   const numberMaxCards = 12;
   return (
@@ -13,10 +13,14 @@ function IngredientsCard({ FoodOrDrink }) {
           </p>
           <img
             data-testid={ `${index}-card-img` }
-            src={ ForD.strMealThumb || ForD.strDrinkThumb }
-            alt={ ForD.strMeal || ForD.strDrink }
+            src={ food
+              ? `https://www.themealdb.com/images/ingredients/${ForD.strIngredient}-Small.png`
+              : `https://www.thecocktaildb.com/images/ingredients/${ForD.strIngredient1}-Small.png` }
+            alt={ ForD.strIngredient || ForD.strIngredient1 }
           />
-          <p data-testid={ `${index}-card-name` }>{ ForD.strIngredient }</p>
+          <p data-testid={ `${index}-card-name` }>
+            { ForD.strIngredient || ForD.strIngredient1 }
+          </p>
           <p>s</p>
         </div>
       )).slice(0, numberMaxCards)}

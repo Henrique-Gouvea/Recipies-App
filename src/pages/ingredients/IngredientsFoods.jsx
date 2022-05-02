@@ -10,7 +10,7 @@ function IngredientsFoods() {
   return (
     <>
       <Header title="Explore Ingredients" />
-      <IngredientsCard FoodOrDrink={ foodIngredients } />
+      <IngredientsCard FoodOrDrink={ foodIngredients } food />
       <h1>IngredientsFoods</h1>
       <Footer />
     </>
