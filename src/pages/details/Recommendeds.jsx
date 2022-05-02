@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { arrayOf, func, shape, number, string } from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
-function Recommendeds({ recommendeds, ID, option }) {
+function Recommendeds({ value }) {
+  const { ID, recommendeds, option } = value;
   const [progress, setProgress] = useState(false);
   const carousel = useRef();
   const history = useHistory();

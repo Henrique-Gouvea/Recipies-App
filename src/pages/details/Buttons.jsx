@@ -4,7 +4,8 @@ import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import { shareLink, storageObj } from '../../services/utilities';
 
-function Buttons({ ID, details, option }) {
+function Buttons({ value }) {
+  const { ID, details, option } = value;
   const [isCopied, setCopied] = useState(false);
   const [isFavorite, setFavorite] = useState(false);
   const favStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));

@@ -17,7 +17,6 @@ function AppFoodProvider({ children }) {
   const [recipeDrinks, setRecipeDrinks] = useState([]);
   const [categoryClick, setCategoryClick] = useState({ categorie: '', type: '' });
   const [categoryArr, setCategoryArr] = useState([]);
-  const [details, setDetails] = useState('');
 
   useEffect(() => {
     foodAPI('c').then((e) => setFoodCategories(e.meals));
@@ -49,8 +48,6 @@ function AppFoodProvider({ children }) {
     setCategoryClick,
     categoryArr,
     setCategoryArr,
-    details,
-    setDetails,
   };
 
   return (

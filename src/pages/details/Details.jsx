@@ -3,12 +3,15 @@ import { useHistory } from 'react-router-dom';
 import apiRequestByLink from '../../services/apiRequestByLink';
 import Recommendeds from './Recommendeds';
 import AppFoodContext from '../../context/AppFoodContext';
-import { getVideoID, measure } from '../../services/utilities';
-import './Details.css';
 import Buttons from './Buttons';
+import DetailsInfo from './DetailsInfo';
+import Ingredients from './Ingredients';
+import Video from './Video';
+import './Details.css';
 
 function FoodDetails() {
-  const { details, setDetails, recipeFoods, recipeDrinks } = useContext(AppFoodContext);
+  const { recipeFoods, recipeDrinks } = useContext(AppFoodContext);
+  const [details, setDetails] = useState('');
   const [recommendeds, setRecommendeds] = useState('');
   const history = useHistory();
   const option = history.location.pathname.replace(/[^a-zA-Z]+/g, '');
@@ -37,58 +40,22 @@ function FoodDetails() {
     })();
   }, [ID, option, recipeDrinks, recipeFoods, setDetails]);
 
+  const data = { details, ID, option, recommendeds };
+
   return (
     <div>
       { details
         && (
           <>
-            <img
-              data-testid="recipe-photo"
-              src={ details.strMealThumb || details.strDrinkThumb }
-              alt={ details.strMeal || details.strDrink }
-            />
-            <h2 data-testid="recipe-title">{details.strMeal || details.strDrink}</h2>
-            <p
-              data-testid="recipe-category"
-            >
-              {details.strAlcoholic || details.strCategory}
-            </p>
+            <DetailsInfo value={ data } />
 
-            <Buttons ID={ ID } details={ details } option={ option } />
+            <Buttons value={ data } />
 
-            <ul>
-              { Object.keys(details)
-                .filter((item) => item.includes('strIngredient'))
-                .map((ingredient, i) => (
-                  details[ingredient]
-                    ? (
-                      <li
-                        key={ i }
-                        data-testid={ `${i}-ingredient-name-and-measure` }
-                      >
-                        { `${details[ingredient]} ${measure(i, details)}` }
-                      </li>
-                    ) : null
-                ))}
-            </ul>
-            <p data-testid="instructions">{details.strInstructions}</p>
-            { details.strMeal
-              && (
-                <iframe
-                  data-testid="video"
-                  width="360"
-                  src={ `https://www.youtube.com/embed/${getVideoID(details.strYoutube)}` }
-                  frameBorder="0"
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                  title="video"
-                />
-              )}
-            <Recommendeds
-              recommendeds={ recommendeds }
-              id={ ID }
-              option={ option }
-            />
+            <Ingredients value={ data } testid />
+
+            <Video value={ data } />
+
+            <Recommendeds value={ data } />
           </>
         )}
     </div>
