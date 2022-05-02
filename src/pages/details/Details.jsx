@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import apiRequestByLink from '../../services/apiRequestByLink';
 import Recommendeds from './Recommendeds';
+import { getVideoID, measure } from '../../services/utilities';
 import './Details.css';
+import Buttons from './Buttons';
 
 function FoodDetails() {
   const [details, setDetails] = useState('');
@@ -39,15 +41,6 @@ function FoodDetails() {
     })();
   }, [ID, option, setDetails]);
 
-  function getVideoID(url) {
-    return url.split(/(v=|youtu\.be\/)/)[2];
-  }
-
-  function measure(index) {
-    const measureIndex = `${details[`strMeasure${index + 1}`]}`;
-    return measureIndex !== 'null' ? ` - ${measureIndex}` : '';
-  }
-
   return (
     <div>
       { details
@@ -64,18 +57,8 @@ function FoodDetails() {
             >
               {details.strAlcoholic || details.strCategory}
             </p>
-            <button
-              data-testid="share-btn"
-              type="button"
-            >
-              Share
-            </button>
-            <button
-              data-testid="favorite-btn"
-              type="button"
-            >
-              Favorite
-            </button>
+
+            <Buttons ID={ ID } details={ details } option={ option } />
 
             <ul>
               { Object.keys(details)
@@ -87,7 +70,7 @@ function FoodDetails() {
                         key={ i }
                         data-testid={ `${i}-ingredient-name-and-measure` }
                       >
-                        { `${details[ingredient]} ${measure(i)}` }
+                        { `${details[ingredient]} ${measure(i, details)}` }
                       </li>
                     ) : null
                 ))}
@@ -105,7 +88,11 @@ function FoodDetails() {
                   title="video"
                 />
               )}
-            <Recommendeds recommendeds={ recommendeds } />
+            <Recommendeds
+              recommendeds={ recommendeds }
+              id={ ID }
+              option={ option }
+            />
           </>
         )}
     </div>

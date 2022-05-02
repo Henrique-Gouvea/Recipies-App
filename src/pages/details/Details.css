@@ -39,3 +39,8 @@ img {
   bottom: 0;
   position: fixed;
 }
+
+.favorite img {
+  height: 20px;
+  width: 20px;
+}
