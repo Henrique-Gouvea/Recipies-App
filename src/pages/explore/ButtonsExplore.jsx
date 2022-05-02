@@ -25,7 +25,6 @@ function ButtonsExplore({ food }) {
       history.push(`/foods/${idAleatoria.meals[0].idMeal}`);
     } else {
       idAleatoria = await apiRequestByLink('https://www.thecocktaildb.com/api/json/v1/1/random.php');
-      console.log(idAleatoria);
       history.push(`/drinks/${idAleatoria.drinks[0].idDrink}`);
     }
   }
