@@ -36,10 +36,8 @@ function AppFoodProvider({ children }) {
     foodAPI('a').then((e) => setFoodCountry(e.meals));
     drinksAPI('c').then((e) => setDrinkCategories(e.drinks));
     drinksAPI('i').then((e) => setDrinksIngredients(e.drinks));
-    // drinksAPI('g').then((e) => setDrinkGlasses(e.drinks));
     linkApi('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=').then((e) => setRecipeDrinks(e.drinks));
     linkApi('https://www.themealdb.com/api/json/v1/1/search.php?s=').then((e) => setRecipeFoods(e.meals));
-    // apiRequest();
   }, []);
 
   useEffect(() => {
