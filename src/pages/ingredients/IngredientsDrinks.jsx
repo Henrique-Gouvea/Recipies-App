@@ -6,11 +6,17 @@ import IngredientsCard from './IngredientsCard';
 
 function IngredientsDrinks() {
   const { drinkIngredients } = useContext(AppFoodContext);
+  // const history = useHistory();
 
   return (
     <>
       <Header title="Explore Ingredients" />
-      <IngredientsCard FoodOrDrink={ drinkIngredients } />
+      <div
+        aria-hidden="true"
+        // onClick={ history.push() }
+      >
+        <IngredientsCard FoodOrDrink={ drinkIngredients } />
+      </div>
       <h1>IngredientsDrinks</h1>
       <Footer />
     </>
