@@ -1,13 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { arrayOf, func, shape, number, string } from 'prop-types';
-import { useHistory } from 'react-router-dom';
 
 function Recommendeds({ value }) {
-  const { ID, recommendeds, option } = value;
-  const [progress, setProgress] = useState(false);
+  const { recommendeds } = value;
   const carousel = useRef();
-  const history = useHistory();
-  const path = `${history.location.pathname}/in-progress`;
 
   function handleClick({ target: { name } }) {
     switch (name) {
@@ -18,16 +14,6 @@ function Recommendeds({ value }) {
       carousel.current.scrollLeft -= carousel.current.offsetWidth;
     }
   }
-
-  useEffect(() => {
-    (() => {
-      const getProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
-      const ForD = option === 'foods' ? 'meals' : 'cocktails';
-      if (getProgress && getProgress[ForD][ID]) {
-        setProgress(true);
-      }
-    })();
-  }, [ID, option]);
 
   return (
     <section className="container">
@@ -52,14 +38,6 @@ function Recommendeds({ value }) {
         <button name="left" type="button" onClick={ handleClick }>Left</button>
         <button name="right" type="button" onClick={ handleClick }>Right</button>
       </div>
-      <button
-        className="start-recipe"
-        type="button"
-        data-testid="start-recipe-btn"
-        onClick={ () => history.push(path) }
-      >
-        {!progress ? 'Start Recipe' : 'Continue Recipe'}
-      </button>
     </section>
   );
 }

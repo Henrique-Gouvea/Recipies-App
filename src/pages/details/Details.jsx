@@ -13,9 +13,14 @@ function FoodDetails() {
   const { recipeFoods, recipeDrinks } = useContext(AppFoodContext);
   const [details, setDetails] = useState('');
   const [recommendeds, setRecommendeds] = useState('');
+  const [progress, setProgress] = useState(false);
   const history = useHistory();
+  const path = `${history.location.pathname}/in-progress`;
   const option = history.location.pathname.replace(/[^a-zA-Z]+/g, '');
   const ID = history.location.pathname.replace(/\D/g, '');
+  const SIX = 6;
+
+  console.log(option);
 
   useEffect(() => {
     (async () => {
@@ -26,10 +31,8 @@ function FoodDetails() {
         `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${ID}`,
       );
 
-      const SIX = 6;
-
-      switch (option) {
-      case 'foods':
+      switch (true) {
+      case option === 'foods' || option === 'foodsinprogress':
         setDetails(foodData.meals[0]);
         setRecommendeds(recipeDrinks.slice(0, SIX));
         break;
@@ -39,6 +42,16 @@ function FoodDetails() {
       }
     })();
   }, [ID, option, recipeDrinks, recipeFoods, setDetails]);
+
+  useEffect(() => {
+    (() => {
+      const getProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const ForD = option === 'foods' ? 'meals' : 'cocktails';
+      if (getProgress && getProgress[ForD][ID]) {
+        setProgress(true);
+      }
+    })();
+  }, [ID, option]);
 
   const data = { details, ID, option, recommendeds };
 
@@ -51,11 +64,32 @@ function FoodDetails() {
 
             <Buttons value={ data } />
 
-            <Ingredients value={ data } testid />
-
-            <Video value={ data } />
-
-            <Recommendeds value={ data } />
+            {option.length <= SIX
+              ? (
+                <>
+                  <Ingredients value={ data } testid />
+                  <Video value={ data } />
+                  <Recommendeds value={ data } />
+                  <button
+                    className="recipe-btn"
+                    type="button"
+                    data-testid="start-recipe-btn"
+                    onClick={ () => history.push(path) }
+                  >
+                    {!progress ? 'Start Recipe' : 'Continue Recipe'}
+                  </button>
+                </>)
+              : (
+                <>
+                  <Ingredients value={ data } />
+                  <button
+                    className="recipe-btn"
+                    type="button"
+                    data-testid="finish-recipe-btn"
+                  >
+                    Finish Recipe
+                  </button>
+                </>)}
           </>
         )}
     </div>
