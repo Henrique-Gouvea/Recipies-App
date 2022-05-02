@@ -20,7 +20,7 @@ function FoodDetails() {
   const ID = history.location.pathname.replace(/\D/g, '');
   const SIX = 6;
 
-  console.log(option);
+  console.log(window.location.href.replace(/in-progress/g, ''));
 
   useEffect(() => {
     (async () => {
@@ -86,6 +86,7 @@ function FoodDetails() {
                     className="recipe-btn"
                     type="button"
                     data-testid="finish-recipe-btn"
+                    onClick={ () => history.push('/done-recipes') }
                   >
                     Finish Recipe
                   </button>

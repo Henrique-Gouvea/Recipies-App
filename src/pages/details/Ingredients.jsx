@@ -10,17 +10,34 @@ function Ingredients({ value, testid }) {
       <ul>
         { Object.keys(details)
           .filter((item) => item.includes('strIngredient'))
-          .map((ingredient, i) => (
-            details[ingredient]
-              ? (
-                <li
-                  key={ i }
-                  data-testid={ `${i}${dataTest}` }
-                >
-                  { `${details[ingredient]} ${measure(i, details)}` }
-                </li>
-              ) : null
-          ))}
+          .map((ingredient, i) => {
+            if (details[ingredient]) {
+              return testid
+                ? (
+                  <li
+                    key={ i }
+                    data-testid={ `${i}${dataTest}` }
+                  >
+                    { `${details[ingredient]} ${measure(i, details)}` }
+                  </li>
+                ) : (
+                  <label
+                    key={ i }
+                    htmlFor={ `input-${i}` }
+                    data-testid={ `${i}${dataTest}` }
+                    className="checkbox"
+                  >
+                    <input
+                      id={ `input-${i}` }
+                      type="checkbox"
+                      value="v"
+                    />
+                    { `${details[ingredient]} ${measure(i, details)}` }
+                  </label>
+                );
+            }
+            return null;
+          })}
       </ul>
       <p data-testid="instructions">{details.strInstructions}</p>
     </>
