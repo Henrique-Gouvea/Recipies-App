@@ -15,7 +15,7 @@ function Header({ title, btnSearch }) {
         src="../images/profileIcon.svg"
       >
         <img src={ profileIcon } alt="profileIcon" />
-        {/* Profile */}
+        {/* Profilea */}
       </button>
       {btnSearch
         ? (
