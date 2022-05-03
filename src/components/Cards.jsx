@@ -6,8 +6,6 @@ import AppFoodContext from '../context/AppFoodContext';
 function Cards({ FoodOrDrink }) {
   const { categoryArr } = useContext(AppFoodContext);
   const numberMaxCards = 12;
-  console.log(FoodOrDrink);
-  if (categoryArr) console.log(categoryArr);
 
   return (
     <>

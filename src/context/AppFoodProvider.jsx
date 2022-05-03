@@ -17,6 +17,8 @@ function AppFoodProvider({ children }) {
   const [recipeDrinks, setRecipeDrinks] = useState([]);
   const [categoryClick, setCategoryClick] = useState({ categorie: '', type: '' });
   const [categoryArr, setCategoryArr] = useState([]);
+  const [nationaliteSelected, setNationaliteSelected] = useState('American');
+  const [nationaliteArr, setNationaliteArr] = useState('');
 
   useEffect(() => {
     foodAPI('c').then((e) => setFoodCategories(e.meals));
@@ -28,6 +30,10 @@ function AppFoodProvider({ children }) {
       .then((e) => setRecipeDrinks(e.drinks));
     apiRequestByLink('https://www.themealdb.com/api/json/v1/1/search.php?s=')
       .then((e) => setRecipeFoods(e.meals));
+    apiRequestByLink(
+      `https://www.themealdb.com/api/json/v1/1/filter.php?a=${nationaliteSelected}`,
+    ).then((e) => setNationaliteArr(e));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -48,6 +54,10 @@ function AppFoodProvider({ children }) {
     setCategoryClick,
     categoryArr,
     setCategoryArr,
+    nationaliteSelected,
+    setNationaliteSelected,
+    nationaliteArr,
+    setNationaliteArr,
   };
 
   return (
