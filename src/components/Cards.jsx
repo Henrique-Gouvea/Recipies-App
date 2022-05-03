@@ -4,14 +4,18 @@ import PropTypes from 'prop-types';
 import AppFoodContext from '../context/AppFoodContext';
 
 function Cards({ FoodOrDrink }) {
-  const { categoryClick, categoryArr } = useContext(AppFoodContext);
+  const { categoryArr } = useContext(AppFoodContext);
   const numberMaxCards = 12;
+  console.log(FoodOrDrink);
+  if (categoryArr) console.log(categoryArr);
 
   return (
     <>
       <p>.</p>
       {FoodOrDrink
-      && (categoryClick.categorie && categoryArr ? categoryArr : FoodOrDrink)
+      // && (categoryArr.categorie && categoryArr ? categoryArr : FoodOrDrink)
+      && (categoryArr || FoodOrDrink)
+        // .filter((ForD) => )
         .map((ForD, index) => (
           <div
             key={ ForD.idMeal || ForD.idDrink }
