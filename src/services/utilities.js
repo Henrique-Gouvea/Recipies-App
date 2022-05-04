@@ -7,8 +7,8 @@ export function measure(index, details) {
   return measureIndex !== 'null' ? ` - ${measureIndex}` : '';
 }
 
-export function shareLink(setCopied) {
-  navigator.clipboard.writeText(window.location.href.replace(/\/in-progress/g, ''))
+export function shareLink(setCopied, url) {
+  navigator.clipboard.writeText(url)
     .then(() => {
       setCopied(true);
     });
