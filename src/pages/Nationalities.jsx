@@ -24,8 +24,6 @@ function Nationalities({ history }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nationaliteSelected]);
 
-  if (nationaliteArr) console.log(nationaliteArr);
-
   return (
     <>
       <Header title="Explore Nationalities" btnSearch />

@@ -5,7 +5,6 @@ import AppFoodContext from '../../context/AppFoodContext';
 import apiRequestByLink from '../../services/apiRequestByLink';
 
 function IngredientsCard({ FoodOrDrink, food }) {
-  console.log(FoodOrDrink);
   const numberMaxCards = 12;
   const history = useHistory();
   const { setCategoryArr } = useContext(AppFoodContext);
