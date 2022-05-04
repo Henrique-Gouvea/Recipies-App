@@ -23,7 +23,7 @@ function Login({ history }) {
   const btnSubmit = () => {
     localStorage.setItem('mealsToken', 1);
     localStorage.setItem('cocktailsToken', 1);
-    localStorage.setItem('user', JSON.stringify({ email: emailLogin }));
+    localStorage.setItem('user', emailLogin);
     history.push('/foods');
   };
 
