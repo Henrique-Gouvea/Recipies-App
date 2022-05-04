@@ -15,7 +15,6 @@ import IngredientsDrinks from './pages/ingredients/IngredientsDrinks';
 import IngredientsFoods from './pages/ingredients/IngredientsFoods';
 import Nationalities from './pages/Nationalities';
 import Details from './pages/details/Details';
-import InProgress from './pages/InProgress';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -36,8 +35,10 @@ function App() {
         <Route exact path="/explore/foods/nationalities" component={ Nationalities } />
         <Route exact path="/foods/:id" component={ Details } />
         <Route exact path="/drinks/:id" component={ Details } />
-        <Route exact path="/foods/:id/in-progress" component={ InProgress } />
-        <Route exact path="/drinks/:id/in-progress" component={ InProgress } />
+        <Route exact path="/foods/:id/in-progress" component={ Details } />
+        <Route exact path="/drinks/:id/in-progress" component={ Details } />
+        <Route exact path="/foods/:id/in-progress" component={ Details } />
+        <Route exact path="/drinks/:id/in-progress" component={ Details } />
         <Route path="" component={ NotFound } />
       </Switch>
     </div>

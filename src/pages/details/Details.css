@@ -35,7 +35,7 @@ img {
   width: 180px;
 }
 
-.start-recipe {
+.recipe-btn {
   bottom: 0;
   position: fixed;
 }
@@ -43,4 +43,8 @@ img {
 .favorite img {
   height: 20px;
   width: 20px;
+}
+
+.checkbox {
+  display: block;
 }

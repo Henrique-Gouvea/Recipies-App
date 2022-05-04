@@ -8,21 +8,25 @@ export function measure(index, details) {
 }
 
 export function shareLink(setCopied) {
-  navigator.clipboard.writeText(window.location.href)
+  navigator.clipboard.writeText(window.location.href.replace(/\/in-progress/g, ''))
     .then(() => {
       setCopied(true);
     });
 }
 
 export function storageObj(detail, option) {
-  const lessOne = -1;
+  const opt = option === 'foods' || option === 'foodsinprogress' ? 'food' : 'drink';
   return {
     id: detail.idMeal || detail.idDrink,
-    type: option.slice(0, lessOne),
+    type: opt,
     nationality: detail.strArea || '',
     category: detail.strCategory,
     alcoholicOrNot: detail.strAlcoholic || '',
     name: detail.strMeal || detail.strDrink,
     image: detail.strMealThumb || detail.strDrinkThumb,
   };
+}
+
+export function checkProgress(opt, ID) {
+  return Object.keys(opt)?.some((item) => item === ID);
 }

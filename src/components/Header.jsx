@@ -14,20 +14,24 @@ function Header({ title, btnSearch }) {
       </h1>
       <button
         type="button"
-        data-testid="profile-top-btn"
-        src="../images/profileIcon.svg"
         onClick={ () => history.push('/profile') }
       >
-        <img src={ profileIcon } alt="profileIcon" />
+        <img
+          data-testid="profile-top-btn"
+          src={ profileIcon }
+          alt="profileIcon"
+        />
       </button>
       {btnSearch
         ? (
           <button
             type="button"
-            data-testid="search-top-btn"
-            src="../images/searchIcon.svg"
           >
-            <img src={ searchIcon } alt="searchIcon" />
+            <img
+              data-testid="search-top-btn"
+              src={ searchIcon }
+              alt="searchIcon"
+            />
           </button>
         )
         : ''}
