@@ -38,15 +38,18 @@ function Ingredients({ value, testid }) {
                   <label
                     key={ i }
                     htmlFor={ `input-${i}` }
-                    data-testid={ `${i}${dataTest}` }
                     className="checkbox"
+                    data-testid={ `${i}${dataTest}` }
+                    style={ checkCheckbox(ingredient)
+                      ? { textDecoration: 'line-through' }
+                      : { textDecoration: 'none' } }
                   >
                     <input
+                      checked={ checkCheckbox(ingredient) }
                       id={ `input-${i}` }
                       type="checkbox"
                       value={ details[ingredient] }
                       onChange={ (e) => SaveProgress(value, ForD, e) }
-                      checked={ checkCheckbox(ingredient) }
                     />
                     { `${details[ingredient]} ${measure(i, details)}` }
                   </label>

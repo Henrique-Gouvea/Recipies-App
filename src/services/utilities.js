@@ -15,10 +15,10 @@ export function shareLink(setCopied) {
 }
 
 export function storageFavorites(detail, option) {
-  const lessOne = -1;
+  const opt = option === 'foodsinprogress' ? 'food' : 'drink';
   return {
     id: detail.idMeal || detail.idDrink,
-    type: option.slice(0, lessOne),
+    type: opt,
     nationality: detail.strArea || '',
     category: detail.strCategory,
     alcoholicOrNot: detail.strAlcoholic || '',
@@ -29,8 +29,4 @@ export function storageFavorites(detail, option) {
 
 export function checkProgress(opt, ID) {
   return Object.keys(opt).some((item) => item === ID);
-}
-
-export function checkCheck(prog, { target }, ID) {
-  return Object.keys(prog.meals).some((elem) => elem[ID] === target.value);
 }
