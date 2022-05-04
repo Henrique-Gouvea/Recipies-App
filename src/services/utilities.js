@@ -28,5 +28,5 @@ export function storageObj(detail, option) {
 }
 
 export function checkProgress(opt, ID) {
-  return opt !== undefined && Object.keys(opt)?.some((item) => item === ID);
+  return Object.keys(opt)?.some((item) => item === ID);
 }
