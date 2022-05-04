@@ -16,11 +16,11 @@ function Nationalities({ history }) {
   } = useContext(AppFoodContext);
 
   useEffect(() => {
-    if (nationaliteSelected) {
+    if (nationaliteSelected !== 'All') {
       apiRequestbylink(
         `https://www.themealdb.com/api/json/v1/1/filter.php?a=${nationaliteSelected}`,
       ).then((e) => setNationaliteArr(e));
-    }
+    } else setNationaliteArr(recipeFoods);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nationaliteSelected]);
 
@@ -41,7 +41,7 @@ function Nationalities({ history }) {
           >
             {count.strArea}
           </option>))}
-        <option>All</option>
+        <option data-testid="All-option">All</option>
       </select>
       <div
         aria-hidden="true"

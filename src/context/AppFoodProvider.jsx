@@ -33,9 +33,6 @@ function AppFoodProvider({ children }) {
       });
     apiRequestByLink('https://www.themealdb.com/api/json/v1/1/search.php?s=')
       .then((e) => setRecipeFoods(e.meals));
-    // apiRequestByLink(
-    //   'https://www.themealdb.com/api/json/v1/1/search.php?s=',
-    // ).then((e) => setNationaliteArr(e));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
