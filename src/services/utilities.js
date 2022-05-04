@@ -14,8 +14,8 @@ export function shareLink(setCopied) {
     });
 }
 
-export function storageFavorites(detail, option) {
-  const opt = option === 'foodsinprogress' ? 'food' : 'drink';
+export function storageObj(detail, option) {
+  const opt = option === 'foods' || option === 'foodsinprogress' ? 'food' : 'drink';
   return {
     id: detail.idMeal || detail.idDrink,
     type: opt,
@@ -28,5 +28,5 @@ export function storageFavorites(detail, option) {
 }
 
 export function checkProgress(opt, ID) {
-  return Object.keys(opt).some((item) => item === ID);
+  return Object?.keys(opt)?.some((item) => item === ID);
 }

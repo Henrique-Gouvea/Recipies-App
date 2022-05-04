@@ -7,7 +7,7 @@ import Buttons from './Buttons';
 import DetailsInfo from './DetailsInfo';
 import Ingredients from './Ingredients';
 import Video from './Video';
-import { checkProgress } from '../../services/utilities';
+import { checkProgress, storageObj } from '../../services/utilities';
 import './Details.css';
 
 function FoodDetails() {
@@ -19,8 +19,8 @@ function FoodDetails() {
   const [progress, setProgress] = useState(JSON.parse(
     localStorage.getItem('inProgressRecipes'),
   ) || {
-    cocktails: {},
     meals: {},
+    cocktails: {},
   });
   const history = useHistory();
   const path = `${history.location.pathname}/in-progress`;
@@ -50,11 +50,21 @@ function FoodDetails() {
   }, [id, option, recipeDrinks, recipeFoods, setDetails]);
 
   useEffect(() => {
-    (() => {
+    if (progress) {
       const { cocktails, meals } = progress;
       setProgressItem(checkProgress(meals, id) || checkProgress(cocktails, id));
-    })();
+    }
   }, [id, progress]);
+
+  function finishRecipe() {
+    const getDones = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+    localStorage.setItem('doneRecipes', JSON.stringify(
+      [...getDones, { ...storageObj(details, option),
+        doneDate: new Date().toLocaleDateString(),
+        tags: details.strTags }],
+    ));
+    history.push('/done-recipes');
+  }
 
   const data = {
     details,
@@ -96,7 +106,7 @@ function FoodDetails() {
                     className="recipe-btn"
                     type="button"
                     data-testid="finish-recipe-btn"
-                    onClick={ () => history.push('/done-recipes') }
+                    onClick={ finishRecipe }
                     disabled={ !finished }
                   >
                     Finish Recipe

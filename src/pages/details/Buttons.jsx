@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { number, string } from 'prop-types';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
-import { shareLink, storageFavorites } from '../../services/utilities';
+import { shareLink, storageObj } from '../../services/utilities';
 
 function Buttons({ value }) {
   const { id, details, option } = value;
@@ -24,11 +24,11 @@ function Buttons({ value }) {
   function favorite() {
     switch (true) {
     case !isFavorite && favStorage !== null:
-      saveStorage([...favStorage, storageFavorites(details, option)]);
+      saveStorage([...favStorage, storageObj(details, option)]);
       setFavorite(true);
       break;
     case !isFavorite:
-      saveStorage([storageFavorites(details, option)]);
+      saveStorage([storageObj(details, option)]);
       setFavorite(true);
       break;
     default:
