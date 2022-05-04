@@ -1,20 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
-// import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { shareLink } from '../services/utilities';
 
 function FavoriteRecipes() {
   const [isCopied, setCopied] = useState(false);
+  const [favorites, setFavorites] = useState([]);
   const history = useHistory();
+
+  useEffect(() => {
+    setFavorites(JSON.parse(localStorage.getItem('favoriteRecipes')));
+  }, []);
+
   const handleclick = (id, type) => {
     const url = `http://localhost:3000/${type}s/${id}`;
     shareLink(setCopied, url);
   };
-  const favorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
-  console.table((favorites));
+
+  // const favorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  // console.table((favorites));
+  // console.log(Array.isArray(favorites));
+
+  const handleFavorite = (id) => {
+    const newFavorite = favorites.filter((el) => el.id !== id);
+    console.log(newFavorite);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorite));
+    setFavorites(newFavorite);
+  };
+
+  const handleDrinks = () => {
+    const onlyDrinks = favorites.filter((el) => el.type !== 'food');
+    console.log(onlyDrinks);
+    // localStorage.setItem('favoriteRecipes', JSON.stringify(onlyDrinks));
+    setFavorites(onlyDrinks);
+  };
+
+  const handleFoods = () => {
+    const onlyFoods = favorites.filter((el) => el.type !== 'drink');
+    console.log(onlyFoods);
+    // localStorage.setItem('favoriteRecipes', JSON.stringify(onlyFoods));
+    setFavorites(onlyFoods);
+  };
+
+  const removeFilters = () => {
+    setFavorites(JSON.parse(localStorage.getItem('favoriteRecipes')));
+  };
+
   return (
     <>
       <Header title="Favorite Recipes" />
@@ -63,8 +96,13 @@ function FavoriteRecipes() {
               src={ blackHeartIcon }
               type="button"
               data-testid={ `${index}-horizontal-favorite-btn` }
+              onClick={ () => handleFavorite(el.id) }
             >
-              <img className="shareIcon" src={ blackHeartIcon } alt="blackHeartIcon" />
+              <img
+                className="shareIcon"
+                src={ blackHeartIcon }
+                alt="blackHeartIcon"
+              />
             </button>
           </div>
         ))}
@@ -72,18 +110,21 @@ function FavoriteRecipes() {
       <button
         type="button"
         data-testid="filter-by-all-btn"
+        onClick={ () => removeFilters() }
       >
         All
       </button>
       <button
         type="button"
         data-testid="filter-by-food-btn"
+        onClick={ () => handleFoods() }
       >
         Food
       </button>
       <button
         type="button"
         data-testid="filter-by-drink-btn"
+        onClick={ () => handleDrinks() }
       >
         Drinks
       </button>
