@@ -12,7 +12,13 @@ function SaveProgress(value, ForD, { target }) {
   switch (true) {
   case !target.checked:
     remove = progress[ForD][id].filter((el) => el !== target.value);
-    saveStorageProgress({ ...progress, [ForD]: { [id]: remove } });
+    if (remove.length === 0) {
+      const arr = { ...progress };
+      delete arr[ForD][id];
+      saveStorageProgress({ ...arr });
+    } else {
+      saveStorageProgress({ ...progress, [ForD]: { [id]: remove } });
+    }
     break;
   case checkProgress(meals, id) || checkProgress(cocktails, id):
     saveStorageProgress({ ...progress,

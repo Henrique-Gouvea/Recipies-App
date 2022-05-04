@@ -50,11 +50,13 @@ function FoodDetails() {
   }, [id, option, recipeDrinks, recipeFoods, setDetails]);
 
   useEffect(() => {
-    if (progress) {
+    const ForD = option === 'foods' ? 'meals' : 'cocktails';
+    console.log(progress[ForD][id]);
+    if (progress[ForD][id] !== undefined) {
       const { cocktails, meals } = progress;
       setProgressItem(checkProgress(meals, id) || checkProgress(cocktails, id));
     }
-  }, [id, progress]);
+  }, [id, option, progress]);
 
   function finishRecipe() {
     const getDones = JSON.parse(localStorage.getItem('doneRecipes')) || [];
