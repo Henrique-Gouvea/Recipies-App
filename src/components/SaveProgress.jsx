@@ -1,14 +1,14 @@
 import { checkProgress } from '../services/utilities';
 
-function SaveProgress(value, { target }) {
-  const { id, option, progress, setProgress } = value;
-  const ForD = option === 'foodsinprogress' ? 'meals' : 'cocktails';
+function SaveProgress(value, ForD, { target }) {
+  const { id, progress, setProgress } = value;
+  const { meals, cocktails } = progress;
+  let remove = [];
+
   function saveStorageProgress(obj) {
     localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
   }
 
-  const { meals, cocktails } = progress;
-  let remove = [];
   switch (true) {
   case !target.checked:
     remove = progress[ForD][id].filter((el) => el !== target.value);

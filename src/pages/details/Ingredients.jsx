@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { arrayOf, shape } from 'prop-types';
 import { measure } from '../../services/utilities';
 import SaveProgress from '../../components/SaveProgress';
 
 function Ingredients({ value, testid }) {
-  const { details } = value;
+  const { details, id, progress, option } = value;
   const dataTest = testid ? '-ingredient-name-and-measure' : '-ingredient-step';
+  const ForD = option === 'foodsinprogress' ? 'meals' : 'cocktails';
+  const [checkedList, setCheckedList] = useState([]);
+
+  useEffect(() => {
+    (() => {
+      setCheckedList(progress[ForD][id]);
+    })();
+  }, [ForD, id, progress]);
+
+  function checkCheckbox(i) {
+    return checkedList ? checkedList.includes(details[i]) : false;
+  }
 
   return (
     <section>
@@ -33,7 +45,8 @@ function Ingredients({ value, testid }) {
                       id={ `input-${i}` }
                       type="checkbox"
                       value={ details[ingredient] }
-                      onChange={ (e) => SaveProgress(value, e) }
+                      onChange={ (e) => SaveProgress(value, ForD, e) }
+                      checked={ checkCheckbox(ingredient) }
                     />
                     { `${details[ingredient]} ${measure(i, details)}` }
                   </label>
