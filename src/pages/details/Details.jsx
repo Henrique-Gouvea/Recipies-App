@@ -14,6 +14,7 @@ function FoodDetails() {
   const { recipeFoods, recipeDrinks } = useContext(AppFoodContext);
   const [details, setDetails] = useState('');
   const [recommendeds, setRecommendeds] = useState('');
+  const [finished, setFinished] = useState(false);
   const [progressItem, setProgressItem] = useState(false);
   const [progress, setProgress] = useState(JSON.parse(
     localStorage.getItem('inProgressRecipes'),
@@ -55,7 +56,14 @@ function FoodDetails() {
     })();
   }, [id, progress]);
 
-  const data = { details, id, option, recommendeds, progress, setProgress };
+  const data = {
+    details,
+    id,
+    option,
+    recommendeds,
+    progress,
+    setProgress,
+    setFinished };
 
   return (
     <main>
@@ -89,6 +97,7 @@ function FoodDetails() {
                     type="button"
                     data-testid="finish-recipe-btn"
                     onClick={ () => history.push('/done-recipes') }
+                    disabled={ !finished }
                   >
                     Finish Recipe
                   </button>

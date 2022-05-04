@@ -1,19 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { arrayOf, shape } from 'prop-types';
 import { measure } from '../../services/utilities';
 import SaveProgress from '../../components/SaveProgress';
 
 function Ingredients({ value, testid }) {
-  const { details, id, progress, option } = value;
+  const { details, id, progress, option, setFinished } = value;
   const dataTest = testid ? '-ingredient-name-and-measure' : '-ingredient-step';
   const ForD = option === 'foodsinprogress' ? 'meals' : 'cocktails';
   const [checkedList, setCheckedList] = useState([]);
+  const listItems = useRef();
 
   useEffect(() => {
     (() => {
       setCheckedList(progress[ForD][id]);
     })();
-  }, [ForD, id, progress]);
+
+    return (listItems.current?.children.length === checkedList?.length)
+      ? setFinished(true) : setFinished(false);
+  }, [ForD, checkedList, id, progress, setFinished]);
 
   function checkCheckbox(i) {
     return checkedList ? checkedList.includes(details[i]) : false;
@@ -21,7 +25,7 @@ function Ingredients({ value, testid }) {
 
   return (
     <section>
-      <ul>
+      <ul ref={ listItems }>
         { Object.keys(details)
           .filter((item) => item.includes('strIngredient'))
           .map((ingredient, i) => {
