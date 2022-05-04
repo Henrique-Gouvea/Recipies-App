@@ -128,6 +128,7 @@ function FavoriteRecipes() {
       >
         Drinks
       </button>
+
     </>
   );
 }
