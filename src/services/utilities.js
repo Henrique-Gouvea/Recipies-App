@@ -14,7 +14,7 @@ export function shareLink(setCopied) {
     });
 }
 
-export function storageObj(detail, option) {
+export function storageFavorites(detail, option) {
   const lessOne = -1;
   return {
     id: detail.idMeal || detail.idDrink,
@@ -25,4 +25,12 @@ export function storageObj(detail, option) {
     name: detail.strMeal || detail.strDrink,
     image: detail.strMealThumb || detail.strDrinkThumb,
   };
+}
+
+export function checkProgress(opt, ID) {
+  return Object.keys(opt).some((item) => item === ID);
+}
+
+export function checkCheck(prog, { target }, ID) {
+  return Object.keys(prog.meals).some((elem) => elem[ID] === target.value);
 }

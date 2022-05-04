@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import apiRequestByLink from '../../services/apiRequestByLink';
 import Recommendeds from './Recommendeds';
 import AppFoodContext from '../../context/AppFoodContext';
@@ -7,28 +7,33 @@ import Buttons from './Buttons';
 import DetailsInfo from './DetailsInfo';
 import Ingredients from './Ingredients';
 import Video from './Video';
+import { checkProgress } from '../../services/utilities';
 import './Details.css';
 
 function FoodDetails() {
   const { recipeFoods, recipeDrinks } = useContext(AppFoodContext);
   const [details, setDetails] = useState('');
   const [recommendeds, setRecommendeds] = useState('');
-  const [progress, setProgress] = useState(false);
+  const [progressItem, setProgressItem] = useState(false);
+  const [progress, setProgress] = useState(JSON.parse(
+    localStorage.getItem('inProgressRecipes'),
+  ) || {
+    cocktails: {},
+    meals: {},
+  });
   const history = useHistory();
   const path = `${history.location.pathname}/in-progress`;
   const option = history.location.pathname.replace(/[^a-zA-Z]+/g, '');
-  const ID = history.location.pathname.replace(/\D/g, '');
+  const { id } = useParams();
   const SIX = 6;
-
-  console.log(window.location.href.replace(/in-progress/g, ''));
 
   useEffect(() => {
     (async () => {
       const foodData = await apiRequestByLink(
-        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${ID}`,
+        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
       );
       const drinkData = await apiRequestByLink(
-        `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${ID}`,
+        `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
       );
 
       switch (true) {
@@ -41,32 +46,29 @@ function FoodDetails() {
         setRecommendeds(recipeFoods.slice(0, SIX));
       }
     })();
-  }, [ID, option, recipeDrinks, recipeFoods, setDetails]);
+  }, [id, option, recipeDrinks, recipeFoods, setDetails]);
 
   useEffect(() => {
     (() => {
-      const getProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
-      const ForD = option === 'foods' ? 'meals' : 'cocktails';
-      if (getProgress && getProgress[ForD][ID]) {
-        setProgress(true);
-      }
+      const { cocktails, meals } = progress;
+      setProgressItem(checkProgress(meals, id) || checkProgress(cocktails, id));
     })();
-  }, [ID, option]);
+  }, [id, progress]);
 
-  const data = { details, ID, option, recommendeds };
+  const data = { details, id, option, recommendeds, progress, setProgress };
 
   return (
-    <div>
+    <main>
       { details
         && (
-          <>
+          <div>
             <DetailsInfo value={ data } />
 
             <Buttons value={ data } />
 
             {option.length <= SIX
               ? (
-                <>
+                <div>
                   <Ingredients value={ data } testid />
                   <Video value={ data } />
                   <Recommendeds value={ data } />
@@ -76,11 +78,11 @@ function FoodDetails() {
                     data-testid="start-recipe-btn"
                     onClick={ () => history.push(path) }
                   >
-                    {!progress ? 'Start Recipe' : 'Continue Recipe'}
+                    {!progressItem ? 'Start Recipe' : 'Continue Recipe'}
                   </button>
-                </>)
+                </div>)
               : (
-                <>
+                <div>
                   <Ingredients value={ data } />
                   <button
                     className="recipe-btn"
@@ -90,10 +92,10 @@ function FoodDetails() {
                   >
                     Finish Recipe
                   </button>
-                </>)}
-          </>
+                </div>)}
+          </div>
         )}
-    </div>
+    </main>
   );
 }
 

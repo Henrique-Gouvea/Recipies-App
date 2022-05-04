@@ -1,12 +1,14 @@
 import React from 'react';
 import { arrayOf, shape } from 'prop-types';
 import { measure } from '../../services/utilities';
+import SaveProgress from '../../components/SaveProgress';
 
 function Ingredients({ value, testid }) {
   const { details } = value;
   const dataTest = testid ? '-ingredient-name-and-measure' : '-ingredient-step';
+
   return (
-    <>
+    <section>
       <ul>
         { Object.keys(details)
           .filter((item) => item.includes('strIngredient'))
@@ -30,7 +32,8 @@ function Ingredients({ value, testid }) {
                     <input
                       id={ `input-${i}` }
                       type="checkbox"
-                      value="v"
+                      value={ details[ingredient] }
+                      onChange={ (e) => SaveProgress(value, e) }
                     />
                     { `${details[ingredient]} ${measure(i, details)}` }
                   </label>
@@ -40,7 +43,7 @@ function Ingredients({ value, testid }) {
           })}
       </ul>
       <p data-testid="instructions">{details.strInstructions}</p>
-    </>
+    </section>
   );
 }
 
