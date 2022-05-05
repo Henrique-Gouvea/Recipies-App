@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import apiRequestByLink from '../../services/apiRequestByLink';
 import Recommendeds from './Recommendeds';
 import AppFoodContext from '../../context/AppFoodContext';
@@ -7,7 +7,7 @@ import Buttons from './Buttons';
 import DetailsInfo from './DetailsInfo';
 import Ingredients from './Ingredients';
 import Video from './Video';
-import { checkProgress, storageObj } from '../../services/utilities';
+import { storageObj } from '../../services/utilities';
 import './Details.css';
 
 function FoodDetails() {
@@ -25,7 +25,7 @@ function FoodDetails() {
   const history = useHistory();
   const path = `${history.location.pathname}/in-progress`;
   const option = history.location.pathname.replace(/[^a-zA-Z]+/g, '');
-  const { id } = useParams();
+  const id = history.location.pathname.replace(/\D/g, '');
   const SIX = 6;
 
   useEffect(() => {
@@ -50,11 +50,11 @@ function FoodDetails() {
   }, [id, option, recipeDrinks, recipeFoods, setDetails]);
 
   useEffect(() => {
+    const getProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
     const ForD = option === 'foods' ? 'meals' : 'cocktails';
-    console.log(progress[ForD][id]);
-    if (progress[ForD][id] !== undefined) {
-      const { cocktails, meals } = progress;
-      setProgressItem(checkProgress(meals, id) || checkProgress(cocktails, id));
+    if (getProgress && getProgress[ForD][id]) {
+      console.log('true');
+      setProgressItem(true);
     }
   }, [id, option, progress]);
 

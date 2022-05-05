@@ -49,7 +49,7 @@ function Ingredients({ value, testid }) {
                       : { textDecoration: 'none' } }
                   >
                     <input
-                      checked={ checkCheckbox(ingredient) }
+                      defaultChecked={ checkCheckbox(ingredient) }
                       id={ `input-${i}` }
                       type="checkbox"
                       value={ details[ingredient] }
