@@ -11,8 +11,11 @@ function Header({ title, btnSearch }) {
   const [hideSearchBar, showSearchBar] = useState(false);
   const [radioValue, setRadioValue] = useState('');
   const [inputValue, setInputValue] = useState('');
+  const option = history.location.pathname.replace(/[^a-zA-Z]+/g, '');
+
   const {
     setRecipeFoods,
+    setRecipeDrinks,
   } = useContext(AppFoodContext);
 
   const toggleSearchBar = () => {
@@ -27,24 +30,36 @@ function Header({ title, btnSearch }) {
   };
 
   const handlFilter = async () => {
-    let data = [];
-    switch (radioValue) {
-    case 'nameSearchID':
-      data = (await apiRequestByLink(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`));
+    switch (true) {
+    case radioValue === 'ingredientID' && option === 'foods':
+      apiRequestByLink(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputValue}`)
+        .then((e) => setRecipeFoods(e.meals));
       break;
-    case 'ingredientID':
-      data = (await apiRequestByLink(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputValue}`));
+    case radioValue === 'ingredientID' && option === 'drinks':
+      apiRequestByLink(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputValue}`)
+        .then((e) => setRecipeDrinks(e.drinks));
       break;
-    case 'firstLetterID':
-      if (inputValue.length > 1) {
-        global.alert('Your search must have only 1 (one) character');
-      } else {
-        data = (await apiRequestByLink(`https://www.themealdb.com/api/json/v1/1/search.php?f=${inputValue}`));
-      }
+    case radioValue === 'nameSearchID' && option === 'foods':
+      apiRequestByLink(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`)
+        .then((e) => setRecipeFoods(e.meals));
+      break;
+    case radioValue === 'nameSearchID' && option === 'drinks':
+      apiRequestByLink(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputValue}`)
+        .then((e) => setRecipeDrinks(e.drinks));
+      break;
+    case radioValue === 'firstLetterID' && inputValue.length > 1:
+      global.alert('Your search must have only 1 (one) character');
+      break;
+    case radioValue === 'firstLetterID' && option === 'foods':
+      apiRequestByLink(`https://www.themealdb.com/api/json/v1/1/search.php?f=${inputValue}`)
+        .then((e) => setRecipeFoods(e.meals));
+      break;
+    case radioValue === 'firstLetterID' && option === 'drinks':
+      apiRequestByLink(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputValue}`)
+        .then((e) => setRecipeDrinks(e.drinks));
       break;
     default: console.log('errou');
     }
-    setRecipeFoods(data.meals);
   };
   return (
     <header className="header">

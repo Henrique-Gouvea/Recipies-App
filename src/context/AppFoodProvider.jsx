@@ -38,6 +38,7 @@ function AppFoodProvider({ children }) {
     emailLogin,
     setEmailLogin,
     setRecipeFoods,
+    setRecipeDrinks,
     foodCategories,
     foodIngredients,
     foodCountry,
