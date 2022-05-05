@@ -37,6 +37,7 @@ function AppFoodProvider({ children }) {
   const stateValue = {
     emailLogin,
     setEmailLogin,
+    setRecipeFoods,
     foodCategories,
     foodIngredients,
     foodCountry,
