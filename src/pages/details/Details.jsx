@@ -61,7 +61,9 @@ function FoodDetails() {
     localStorage.setItem('doneRecipes', JSON.stringify(
       [...getDones, { ...storageObj(details, option),
         doneDate: new Date().toLocaleDateString(),
-        tags: details.strTags.split(',') }],
+        tags: (details.strTags !== null)
+          ? details.strTags.split(',')
+          : [] }],
     ));// precisei alterar o formato da tag
     history.push('/done-recipes');
   }

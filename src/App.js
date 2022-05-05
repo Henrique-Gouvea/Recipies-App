@@ -37,8 +37,6 @@ function App() {
         <Route exact path="/drinks/:id" component={ Details } />
         <Route exact path="/foods/:id/in-progress" component={ Details } />
         <Route exact path="/drinks/:id/in-progress" component={ Details } />
-        <Route exact path="/foods/:id/in-progress" component={ Details } />
-        <Route exact path="/drinks/:id/in-progress" component={ Details } />
         <Route path="" component={ NotFound } />
       </Switch>
     </div>
