@@ -1,101 +1,121 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import apiRequestByLink from '../../services/apiRequestByLink';
 import Recommendeds from './Recommendeds';
-import { getVideoID, measure } from '../../services/utilities';
-import './Details.css';
+import AppFoodContext from '../../context/AppFoodContext';
 import Buttons from './Buttons';
+import DetailsInfo from './DetailsInfo';
+import Ingredients from './Ingredients';
+import Video from './Video';
+import { storageObj } from '../../services/utilities';
+import './Details.css';
 
 function FoodDetails() {
+  const { recipeFoods, recipeDrinks } = useContext(AppFoodContext);
   const [details, setDetails] = useState('');
   const [recommendeds, setRecommendeds] = useState('');
+  const [finished, setFinished] = useState(false);
+  const [progressItem, setProgressItem] = useState(false);
+  const [progress, setProgress] = useState(JSON.parse(
+    localStorage.getItem('inProgressRecipes'),
+  ) || {
+    meals: {},
+    cocktails: {},
+  });
   const history = useHistory();
+  const path = `${history.location.pathname}/in-progress`;
   const option = history.location.pathname.replace(/[^a-zA-Z]+/g, '');
-  const ID = history.location.pathname.replace(/\D/g, '');
+  const ForD = option.includes('foods') ? 'meals' : 'cocktails';
+  const { id } = useParams();
+  const SIX = 6;
 
   useEffect(() => {
     (async () => {
       const foodData = await apiRequestByLink(
-        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${ID}`,
+        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
       );
       const drinkData = await apiRequestByLink(
-        `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${ID}`,
+        `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
       );
-      const recFoods = await apiRequestByLink(
-        'https://www.themealdb.com/api/json/v1/1/search.php?s=',
-      );
-      const recDrinks = await apiRequestByLink(
-        'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
-      );
-      const SIX = 6;
 
-      switch (option) {
-      case 'foods':
+      switch (true) {
+      case option.includes('foods'):
         setDetails(foodData.meals[0]);
-        setRecommendeds(recDrinks.drinks.slice(0, SIX));
+        setRecommendeds(recipeDrinks.slice(0, SIX));
         break;
       default:
         setDetails(drinkData.drinks[0]);
-        setRecommendeds(recFoods.meals.slice(0, SIX));
+        setRecommendeds(recipeFoods.slice(0, SIX));
       }
     })();
-  }, [ID, option, setDetails]);
+  }, [id, option, recipeDrinks, recipeFoods, setDetails]);
+
+  useEffect(() => {
+    if (progress && progress[ForD][id]) {
+      setProgressItem(true);
+    }
+  }, [ForD, id, progress]);
+
+  function finishRecipe() {
+    const getDones = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+    localStorage.setItem('doneRecipes', JSON.stringify(
+      [...getDones, { ...storageObj(details, option),
+        doneDate: new Date().toLocaleDateString(),
+        tags: details.strTags.split(',') }],
+    ));// precisei alterar o formato da tag
+    history.push('/done-recipes');
+  }
+
+  const data = {
+    details,
+    id,
+    option,
+    ForD,
+    recommendeds,
+    progress,
+    setProgress,
+    setFinished };
 
   return (
-    <div>
+    <main>
       { details
         && (
-          <>
-            <img
-              data-testid="recipe-photo"
-              src={ details.strMealThumb || details.strDrinkThumb }
-              alt={ details.strMeal || details.strDrink }
-            />
-            <h2 data-testid="recipe-title">{details.strMeal || details.strDrink}</h2>
-            <p
-              data-testid="recipe-category"
-            >
-              {details.strAlcoholic || details.strCategory}
-            </p>
+          <div>
+            <DetailsInfo value={ data } />
 
-            <Buttons ID={ ID } details={ details } option={ option } />
+            <Buttons value={ data } />
 
-            <ul>
-              { Object.keys(details)
-                .filter((item) => item.includes('strIngredient'))
-                .map((ingredient, i) => (
-                  details[ingredient]
-                    ? (
-                      <li
-                        key={ i }
-                        data-testid={ `${i}-ingredient-name-and-measure` }
-                      >
-                        { `${details[ingredient]} ${measure(i, details)}` }
-                      </li>
-                    ) : null
-                ))}
-            </ul>
-            <p data-testid="instructions">{details.strInstructions}</p>
-            { details.strMeal
-              && (
-                <iframe
-                  data-testid="video"
-                  width="360"
-                  src={ `https://www.youtube.com/embed/${getVideoID(details.strYoutube)}` }
-                  frameBorder="0"
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                  title="video"
-                />
-              )}
-            <Recommendeds
-              recommendeds={ recommendeds }
-              id={ ID }
-              option={ option }
-            />
-          </>
+            {option.length <= SIX
+              ? (
+                <div>
+                  <Ingredients value={ data } testid />
+                  <Video value={ data } />
+                  <Recommendeds value={ data } />
+                  <button
+                    className="recipe-btn"
+                    type="button"
+                    data-testid="start-recipe-btn"
+                    onClick={ () => history.push(path) }
+                  >
+                    {!progressItem ? 'Start Recipe' : 'Continue Recipe'}
+                  </button>
+                </div>)
+              : (
+                <div>
+                  <Ingredients value={ data } />
+                  <button
+                    className="recipe-btn"
+                    type="button"
+                    data-testid="finish-recipe-btn"
+                    onClick={ finishRecipe }
+                    disabled={ !finished }
+                  >
+                    Finish Recipe
+                  </button>
+                </div>)}
+          </div>
         )}
-    </div>
+    </main>
   );
 }
 

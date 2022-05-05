@@ -7,6 +7,7 @@ import searchIcon from '../images/searchIcon.svg';
 
 function Header({ title, btnSearch }) {
   const history = useHistory();
+
   const [hideSearchBar, showSearchBar] = useState(false);
 
   const toggleSearchBar = () => {
@@ -23,8 +24,11 @@ function Header({ title, btnSearch }) {
         src="../images/profileIcon.svg"
         onClick={ () => history.push('/profile') }
       >
-        <img src={ profileIcon } alt="profileIcon" />
-        {}
+        <img
+          data-testid="profile-top-btn"
+          src={ profileIcon }
+          alt="profileIcon"
+        />
       </button>
       {btnSearch
         ? (
@@ -34,8 +38,11 @@ function Header({ title, btnSearch }) {
             src="../images/searchIcon.svg"
             onClick={ toggleSearchBar }
           >
-            <img src={ searchIcon } alt="searchIcon" />
-            {/* Search */}
+            <img
+              data-testid="search-top-btn"
+              src={ searchIcon }
+              alt="searchIcon"
+            />
           </button>
         )
         : ''}
