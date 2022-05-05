@@ -1,5 +1,3 @@
-import { checkProgress } from '../services/utilities';
-
 function SaveProgress(value, ForD, { target }) {
   const { id, progress, setProgress } = value;
   const { meals, cocktails } = progress;
@@ -7,6 +5,10 @@ function SaveProgress(value, ForD, { target }) {
 
   function saveStorageProgress(obj) {
     localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
+  }
+
+  function checkProgress(opt, ID) {
+    return Object.keys(opt)?.some((item) => item === ID);
   }
 
   switch (true) {

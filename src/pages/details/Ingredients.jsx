@@ -4,9 +4,8 @@ import { measure } from '../../services/utilities';
 import SaveProgress from '../../components/SaveProgress';
 
 function Ingredients({ value, testid }) {
-  const { details, id, progress, option, setFinished } = value;
+  const { details, id, progress, ForD, setFinished } = value;
   const dataTest = testid ? '-ingredient-name-and-measure' : '-ingredient-step';
-  const ForD = option === 'foodsinprogress' ? 'meals' : 'cocktails';
   const [checkedList, setCheckedList] = useState([]);
   const listItems = useRef();
 
@@ -15,8 +14,7 @@ function Ingredients({ value, testid }) {
       setCheckedList(progress[ForD][id]);
     })();
 
-    return (listItems.current?.children.length === checkedList?.length)
-      ? setFinished(true) : setFinished(false);
+    setFinished(listItems.current?.children.length === checkedList?.length);
   }, [ForD, checkedList, id, progress, setFinished]);
 
   function checkCheckbox(i) {
@@ -49,7 +47,7 @@ function Ingredients({ value, testid }) {
                       : { textDecoration: 'none' } }
                   >
                     <input
-                      checked={ checkCheckbox(ingredient) }
+                      defaultChecked={ checkCheckbox(ingredient) }
                       id={ `input-${i}` }
                       type="checkbox"
                       value={ details[ingredient] }

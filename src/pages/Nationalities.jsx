@@ -21,8 +21,7 @@ function Nationalities({ history }) {
         `https://www.themealdb.com/api/json/v1/1/filter.php?a=${nationaliteSelected}`,
       ).then((e) => setNationaliteArr(e));
     } else setNationaliteArr(recipeFoods);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nationaliteSelected]);
+  }, [nationaliteSelected, recipeFoods, setNationaliteArr]);
 
   return (
     <>

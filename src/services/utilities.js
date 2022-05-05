@@ -26,7 +26,3 @@ export function storageObj(detail, option) {
     image: detail.strMealThumb || detail.strDrinkThumb,
   };
 }
-
-export function checkProgress(opt, ID) {
-  return Object.keys(opt)?.some((item) => item === ID);
-}

@@ -7,7 +7,7 @@ import Buttons from './Buttons';
 import DetailsInfo from './DetailsInfo';
 import Ingredients from './Ingredients';
 import Video from './Video';
-import { checkProgress, storageObj } from '../../services/utilities';
+import { storageObj } from '../../services/utilities';
 import './Details.css';
 
 function FoodDetails() {
@@ -25,6 +25,7 @@ function FoodDetails() {
   const history = useHistory();
   const path = `${history.location.pathname}/in-progress`;
   const option = history.location.pathname.replace(/[^a-zA-Z]+/g, '');
+  const ForD = option.includes('foods') ? 'meals' : 'cocktails';
   const { id } = useParams();
   const SIX = 6;
 
@@ -38,7 +39,7 @@ function FoodDetails() {
       );
 
       switch (true) {
-      case option === 'foods' || option === 'foodsinprogress':
+      case option.includes('foods'):
         setDetails(foodData.meals[0]);
         setRecommendeds(recipeDrinks.slice(0, SIX));
         break;
@@ -50,13 +51,10 @@ function FoodDetails() {
   }, [id, option, recipeDrinks, recipeFoods, setDetails]);
 
   useEffect(() => {
-    const ForD = option === 'foods' ? 'meals' : 'cocktails';
-    console.log(progress[ForD][id]);
-    if (progress[ForD][id] !== undefined) {
-      const { cocktails, meals } = progress;
-      setProgressItem(checkProgress(meals, id) || checkProgress(cocktails, id));
+    if (progress && progress[ForD][id]) {
+      setProgressItem(true);
     }
-  }, [id, option, progress]);
+  }, [ForD, id, progress]);
 
   function finishRecipe() {
     const getDones = JSON.parse(localStorage.getItem('doneRecipes')) || [];
@@ -72,6 +70,7 @@ function FoodDetails() {
     details,
     id,
     option,
+    ForD,
     recommendeds,
     progress,
     setProgress,

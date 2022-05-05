@@ -9,6 +9,7 @@ function Buttons({ value }) {
   const [isCopied, setCopied] = useState(false);
   const [isFavorite, setFavorite] = useState(false);
   const favStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  const url = window.location.href.replace(/\/in-progress/g, '');
 
   useEffect(() => {
     (() => {
@@ -42,7 +43,7 @@ function Buttons({ value }) {
       <button
         data-testid="share-btn"
         type="button"
-        onClick={ () => shareLink(setCopied) }
+        onClick={ () => shareLink(setCopied, url) }
       >
         { !isCopied ? 'Share' : 'Link copied!' }
       </button>

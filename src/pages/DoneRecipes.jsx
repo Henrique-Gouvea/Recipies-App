@@ -1,6 +1,7 @@
 // import React, { useContext, useEffect, useState } from 'react';
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
+import apiRequestByLink from '../services/apiRequestByLink';
 // import AppFoodContext from '../context/AppFoodContext';
 import shareIcon from '../images/shareIcon.svg';
 
@@ -10,22 +11,14 @@ function DoneRecipes() {
 
   const [randomMeal, setRandomMeal] = useState([]);
 
-  async function fetchRandomMeal() {
-    const url = 'https://www.themealdb.com/api/json/v1/1/random.php';
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log(data.meals);
-    console.log(randomMeal);
-    setRandomMeal(data.meals);
-    console.log(randomMeal);
-    return data;
-  }
-
   useEffect(() => {
-    console.log('Foi');
-    fetchRandomMeal();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    (async () => {
+      const url = 'https://www.themealdb.com/api/json/v1/1/random.php';
+      const data = await apiRequestByLink(url);
+      setRandomMeal(data.meals);
+    })();
   }, []);
+
   return (
     <>
       <Header title="Done Recipes" />
