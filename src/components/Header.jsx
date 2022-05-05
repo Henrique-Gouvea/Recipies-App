@@ -9,11 +9,12 @@ import apiRequestByLink from '../services/apiRequestByLink';
 function Header({ title, btnSearch }) {
   const history = useHistory();
   const [hideSearchBar, showSearchBar] = useState(false);
-  const [radioValue, setRadioValue] = useState('');
   const [inputValue, setInputValue] = useState('');
   const option = history.location.pathname.replace(/[^a-zA-Z]+/g, '');
 
   const {
+    radioValue,
+    setRadioValue,
     setRecipeFoods,
     setRecipeDrinks,
   } = useContext(AppFoodContext);
@@ -33,7 +34,9 @@ function Header({ title, btnSearch }) {
     switch (true) {
     case radioValue === 'ingredientID' && option === 'foods':
       apiRequestByLink(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputValue}`)
-        .then((e) => setRecipeFoods(e.meals));
+        .then((e) => {
+          setRecipeFoods(e.meals);
+        });
       break;
     case radioValue === 'ingredientID' && option === 'drinks':
       apiRequestByLink(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputValue}`)

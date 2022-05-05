@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import AppFoodContext from './AppFoodContext';
 import drinksAPI from '../services/drinksApi';
 import foodAPI from '../services/foodApi';
@@ -17,6 +18,19 @@ function AppFoodProvider({ children }) {
   const [recipeDrinks, setRecipeDrinks] = useState([]);
   const [categoryClick, setCategoryClick] = useState({ categorie: '', type: '' });
   const [categoryArr, setCategoryArr] = useState([]);
+  const history = useHistory();
+  const [radioValue, setRadioValue] = useState('');
+
+  useEffect(() => {
+    const option = window.location.href.split('/')[3];
+    if ((radioValue && !recipeFoods) || (radioValue && !recipeDrinks)) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } else if (recipeFoods.length === 1 || recipeDrinks.length === 1) {
+      window.location.href = (
+        option === 'foods' ? `/${option}/${recipeFoods[0]?.idMeal}`
+          : `/${option}/${recipeDrinks[0]?.idDrink}`);
+    }
+  }, [recipeFoods, recipeDrinks, history, radioValue]);
 
   useEffect(() => {
     foodAPI('c').then((e) => setFoodCategories(e.meals));
@@ -37,8 +51,10 @@ function AppFoodProvider({ children }) {
   const stateValue = {
     emailLogin,
     setEmailLogin,
+    setRadioValue,
     setRecipeFoods,
     setRecipeDrinks,
+    radioValue,
     foodCategories,
     foodIngredients,
     foodCountry,
