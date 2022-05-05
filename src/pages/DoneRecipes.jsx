@@ -18,7 +18,7 @@ function DoneRecipes() {
     console.log(randomMeal);
     setRandomMeal(data.meals);
     console.log(randomMeal);
-    return data; 
+    return data;
   }
 
   useEffect(() => {
