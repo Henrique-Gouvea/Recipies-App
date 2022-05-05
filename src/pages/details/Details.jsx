@@ -39,7 +39,7 @@ function FoodDetails() {
       );
 
       switch (true) {
-      case option === 'foods' || option === 'foodsinprogress':
+      case option.includes('foods'):
         setDetails(foodData.meals[0]);
         setRecommendeds(recipeDrinks.slice(0, SIX));
         break;
