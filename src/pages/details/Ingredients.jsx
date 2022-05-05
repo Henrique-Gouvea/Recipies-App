@@ -14,8 +14,7 @@ function Ingredients({ value, testid }) {
       setCheckedList(progress[ForD][id]);
     })();
 
-    return (listItems.current?.children.length === checkedList?.length)
-      ? setFinished(true) : setFinished(false);
+    setFinished(listItems.current?.children.length === checkedList?.length);
   }, [ForD, checkedList, id, progress, setFinished]);
 
   function checkCheckbox(i) {
