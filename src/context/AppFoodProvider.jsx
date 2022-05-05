@@ -20,6 +20,8 @@ function AppFoodProvider({ children }) {
   const [categoryArr, setCategoryArr] = useState([]);
   const history = useHistory();
   const [radioValue, setRadioValue] = useState('');
+  const [nationaliteSelected, setNationaliteSelected] = useState('All');
+  const [nationaliteArr, setNationaliteArr] = useState('');
 
   useEffect(() => {
     const option = window.location.href.split('/')[3];
@@ -39,9 +41,13 @@ function AppFoodProvider({ children }) {
     drinksAPI('c').then((e) => setDrinkCategories(e.drinks));
     drinksAPI('i').then((e) => setDrinksIngredients(e.drinks));
     apiRequestByLink('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
-      .then((e) => setRecipeDrinks(e.drinks));
+      .then((e) => {
+        setRecipeDrinks(e.drinks);
+        setNationaliteArr(e);
+      });
     apiRequestByLink('https://www.themealdb.com/api/json/v1/1/search.php?s=')
       .then((e) => setRecipeFoods(e.meals));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -66,6 +72,10 @@ function AppFoodProvider({ children }) {
     setCategoryClick,
     categoryArr,
     setCategoryArr,
+    nationaliteSelected,
+    setNationaliteSelected,
+    nationaliteArr,
+    setNationaliteArr,
   };
 
   return (

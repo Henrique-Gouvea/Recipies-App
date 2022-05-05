@@ -8,6 +8,7 @@ import apiRequestByLink from '../services/apiRequestByLink';
 
 function Header({ title, btnSearch }) {
   const history = useHistory();
+
   const [hideSearchBar, showSearchBar] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const option = history.location.pathname.replace(/[^a-zA-Z]+/g, '');

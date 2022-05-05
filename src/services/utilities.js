@@ -7,18 +7,18 @@ export function measure(index, details) {
   return measureIndex !== 'null' ? ` - ${measureIndex}` : '';
 }
 
-export function shareLink(setCopied) {
-  navigator.clipboard.writeText(window.location.href)
+export function shareLink(setCopied, url) {
+  navigator.clipboard.writeText(url)
     .then(() => {
       setCopied(true);
     });
 }
 
 export function storageObj(detail, option) {
-  const lessOne = -1;
+  const opt = option === 'foods' || option === 'foodsinprogress' ? 'food' : 'drink';
   return {
     id: detail.idMeal || detail.idDrink,
-    type: option.slice(0, lessOne),
+    type: opt,
     nationality: detail.strArea || '',
     category: detail.strCategory,
     alcoholicOrNot: detail.strAlcoholic || '',
