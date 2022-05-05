@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import apiRequestByLink from '../../services/apiRequestByLink';
 import Recommendeds from './Recommendeds';
 import AppFoodContext from '../../context/AppFoodContext';
@@ -25,7 +25,8 @@ function FoodDetails() {
   const history = useHistory();
   const path = `${history.location.pathname}/in-progress`;
   const option = history.location.pathname.replace(/[^a-zA-Z]+/g, '');
-  const id = history.location.pathname.replace(/\D/g, '');
+  const ForD = option.includes('foods') ? 'meals' : 'cocktails';
+  const { id } = useParams();
   const SIX = 6;
 
   useEffect(() => {
@@ -50,13 +51,10 @@ function FoodDetails() {
   }, [id, option, recipeDrinks, recipeFoods, setDetails]);
 
   useEffect(() => {
-    const getProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    const ForD = option === 'foods' ? 'meals' : 'cocktails';
-    if (getProgress && getProgress[ForD][id]) {
-      console.log('true');
+    if (progress && progress[ForD][id]) {
       setProgressItem(true);
     }
-  }, [id, option, progress]);
+  }, [ForD, id, progress]);
 
   function finishRecipe() {
     const getDones = JSON.parse(localStorage.getItem('doneRecipes')) || [];
@@ -72,6 +70,7 @@ function FoodDetails() {
     details,
     id,
     option,
+    ForD,
     recommendeds,
     progress,
     setProgress,

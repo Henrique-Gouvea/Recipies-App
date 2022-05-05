@@ -4,9 +4,8 @@ import { measure } from '../../services/utilities';
 import SaveProgress from '../../components/SaveProgress';
 
 function Ingredients({ value, testid }) {
-  const { details, id, progress, option, setFinished } = value;
+  const { details, id, progress, ForD, setFinished } = value;
   const dataTest = testid ? '-ingredient-name-and-measure' : '-ingredient-step';
-  const ForD = option === 'foodsinprogress' ? 'meals' : 'cocktails';
   const [checkedList, setCheckedList] = useState([]);
   const listItems = useRef();
 
