@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, cleanup, act, fireEvent } from '@testing-library/react';
+import { screen, cleanup, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithContext from './renderWithContext';
 import App from '../App';
@@ -11,19 +11,17 @@ const VALID_EMAIL = 'test@test.com';
 const VALID_PASSWORD = 'GROUP13';
 
 describe('Login tests', () => {
-  beforeEach(async () => {
-    await act(async () => renderWithContext(<App />));
-  });
-
   afterEach(cleanup);
 
   it('Check screen elements', () => {
+    renderWithContext(<App />);
     expect(screen.getByTestId(EMAIL_ID)).toBeInTheDocument();
     expect(screen.getByTestId(PASSWORD_ID)).toBeInTheDocument();
     expect(screen.getByTestId(BTN_ID)).toBeInTheDocument();
   });
 
   it('Check valid email, password and button status', () => {
+    renderWithContext(<App />);
     const emailLogin = screen.getByTestId(EMAIL_ID);
     const password = screen.getByTestId(PASSWORD_ID);
     const btn = screen.getByTestId(BTN_ID);
@@ -39,7 +37,8 @@ describe('Login tests', () => {
     expect(password.value).toBe(VALID_PASSWORD);
   });
 
-  it('Check localStorage', async () => {
+  it('Check localStorage and route', async () => {
+    const { history } = renderWithContext(<App />);
     const emailLogin = screen.getByTestId(EMAIL_ID);
     const password = screen.getByTestId(PASSWORD_ID);
     const btn = screen.getByTestId(BTN_ID);
@@ -55,5 +54,6 @@ describe('Login tests', () => {
     expect(user.email).toBe(VALID_EMAIL);
     expect(mealsToken).toBe(1);
     expect(cocktailsToken).toBe(1);
+    expect(history.location.pathname).toBe('/foods');
   });
 });
