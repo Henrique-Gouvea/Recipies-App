@@ -23,12 +23,15 @@ describe('Login tests', () => {
     expect(screen.getByTestId(BTN_ID)).toBeInTheDocument();
   });
 
-  it('Check valid email and password', () => {
+  it('Check valid email, password and button status', () => {
     const emailLogin = screen.getByTestId(EMAIL_ID);
     const password = screen.getByTestId(PASSWORD_ID);
+    const btn = screen.getByTestId(BTN_ID);
 
+    expect(btn.disabled).toBeTruthy();
     userEvent.type(emailLogin, VALID_EMAIL);
     userEvent.type(password, VALID_PASSWORD);
+    expect(btn.disabled).toBeFalsy();
 
     expect(emailLogin.value).toBe(VALID_EMAIL);
     expect(password.value).toBe(VALID_PASSWORD);
