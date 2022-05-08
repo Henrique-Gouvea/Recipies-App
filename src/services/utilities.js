@@ -15,10 +15,9 @@ export function shareLink(setCopied, url) {
 }
 
 export function storageObj(detail, option) {
-  const opt = option === 'foods' || option === 'foodsinprogress' ? 'food' : 'drink';
   return {
     id: detail.idMeal || detail.idDrink,
-    type: opt,
+    type: option.includes('foods') ? 'food' : 'drink',
     nationality: detail.strArea || '',
     category: detail.strCategory,
     alcoholicOrNot: detail.strAlcoholic || '',

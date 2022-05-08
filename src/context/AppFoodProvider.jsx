@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
 import AppFoodContext from './AppFoodContext';
 import drinksAPI from '../services/drinksApi';
 import foodAPI from '../services/foodApi';
@@ -18,7 +17,6 @@ function AppFoodProvider({ children }) {
   const [recipeDrinks, setRecipeDrinks] = useState([]);
   const [categoryClick, setCategoryClick] = useState({ categorie: '', type: '' });
   const [categoryArr, setCategoryArr] = useState([]);
-  const history = useHistory();
   const [radioValue, setRadioValue] = useState('');
   const [nationaliteSelected, setNationaliteSelected] = useState('All');
   const [nationaliteArr, setNationaliteArr] = useState('');
@@ -32,7 +30,7 @@ function AppFoodProvider({ children }) {
         option === 'foods' ? `/${option}/${recipeFoods[0]?.idMeal}`
           : `/${option}/${recipeDrinks[0]?.idDrink}`);
     }
-  }, [recipeFoods, recipeDrinks, history, radioValue]);
+  }, [recipeFoods, recipeDrinks, radioValue]);
 
   useEffect(() => {
     foodAPI('c').then((e) => setFoodCategories(e.meals));
@@ -47,7 +45,6 @@ function AppFoodProvider({ children }) {
       });
     apiRequestByLink('https://www.themealdb.com/api/json/v1/1/search.php?s=')
       .then((e) => setRecipeFoods(e.meals));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
