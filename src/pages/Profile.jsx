@@ -1,9 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
-function Profile({ history }) {
+function Profile() {
+  const history = useHistory();
   return (
     <>
       <Header title="Profile" />
@@ -39,11 +40,5 @@ function Profile({ history }) {
     </>
   );
 }
-
-Profile.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }),
-}.isRequired;
 
 export default Profile;
