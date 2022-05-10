@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import AppFoodContext from '../context/AppFoodContext';
 import ButtonCategory from '../components/ButtonCategory';
 import Cards from '../components/Cards';
 
-function Foods({ history }) {
+function Foods() {
+  const history = useHistory();
   const {
     foodCategories,
     recipeFoods,
@@ -27,11 +28,5 @@ function Foods({ history }) {
     </>
   );
 }
-
-Foods.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }),
-}.isRequired;
 
 export default Foods;

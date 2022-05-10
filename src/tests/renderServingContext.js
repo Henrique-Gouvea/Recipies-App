@@ -2,18 +2,18 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import AppFoodProvider from '../context/AppFoodProvider';
+import AppFoodContext from '../context/AppFoodContext';
 
-const renderWithContext = (component) => {
+const renderServingContext = (component, value) => {
   const history = createMemoryHistory();
   return ({
     ...render(
-      <AppFoodProvider>
+      <AppFoodContext.Provider value={ value }>
         <Router history={ history }>{component}</Router>
-      </AppFoodProvider>,
+      </AppFoodContext.Provider>,
     ),
     history,
   });
 };
 
-export default renderWithContext;
+export default renderServingContext;

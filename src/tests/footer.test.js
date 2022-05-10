@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, cleanup, act, fireEvent } from '@testing-library/react';
+import { screen, cleanup, fireEvent } from '@testing-library/react';
 import renderWithContext from './renderWithContext';
 import Foods from '../pages/Foods';
 import Explore from '../pages/Explore';
@@ -20,128 +20,101 @@ const EXPLORE_SURPRISE = 'explore-surprise';
 describe('Footer tests', () => {
   afterEach(cleanup);
 
-  const hasFooter = () => {
+  const hasFooter = async () => {
     expect(screen.getByTestId(FOOTER_ID)).toBeInTheDocument();
     expect(screen.getByTestId(DRINKS_ID)).toBeInTheDocument();
     expect(screen.getByTestId(EXPLORE_ID)).toBeInTheDocument();
     expect(screen.getByTestId(FOOD_ID)).toBeInTheDocument();
   };
 
-  const hasNoFooter = () => {
+  const hasNoFooter = async () => {
     expect(() => screen.getByTestId(FOOTER_ID)).toThrow();
     expect(() => screen.getByTestId(DRINKS_ID)).toThrow();
     expect(() => screen.getByTestId(EXPLORE_ID)).toThrow();
     expect(() => screen.getByTestId(FOOD_ID)).toThrow();
   };
 
-  const checkID = (ID) => {
-    expect(screen.getByTestId(ID)).toBeInTheDocument();
-    hasFooter();
-  };
-
   it('Check icons', async () => {
-    await act(async () => {
-      renderWithContext(<Foods />);
-    });
-    expect(screen.getByTestId(DRINKS_ID)).toHaveAttribute('src', 'drinkIcon.svg');
+    renderWithContext(<Foods />);
+    expect(await screen.findByTestId(DRINKS_ID)).toHaveAttribute('src', 'drinkIcon.svg');
     expect(screen.getByTestId(EXPLORE_ID)).toHaveAttribute('src', 'exploreIcon.svg');
     expect(screen.getByTestId(FOOD_ID)).toHaveAttribute('src', 'mealIcon.svg');
   });
 
   it('Check routes', async () => {
-    let hist = null;
-    await act(async () => {
-      const { history } = renderWithContext(<Foods />);
-      hist = history;
-    });
+    const { history } = renderWithContext(<Foods />);
 
-    fireEvent.click(screen.getByTestId(DRINKS_ID));
-    expect(hist.location.pathname).toBe('/drinks');
+    fireEvent.click(await screen.findByTestId(DRINKS_ID));
+    expect(history.location.pathname).toBe('/drinks');
 
     fireEvent.click(screen.getByTestId(EXPLORE_ID));
-    expect(hist.location.pathname).toBe('/explore');
+    expect(history.location.pathname).toBe('/explore');
 
     fireEvent.click(screen.getByTestId(FOOD_ID));
-    expect(hist.location.pathname).toBe('/foods');
+    expect(history.location.pathname).toBe('/foods');
   });
 
   it('Check Login', async () => {
-    await act(async () => {
-      renderWithContext(<Login />);
-    });
+    renderWithContext(<Login />);
+    await screen.findByText('E-mail');
     hasNoFooter();
   });
 
   it('Check Foods', async () => {
-    await act(async () => {
-      renderWithContext(<Foods />);
-    });
+    renderWithContext(<Foods />);
+    await screen.findAllByText('Foods');
     hasFooter();
   });
 
   it('Check Explore', async () => {
-    await act(async () => {
-      renderWithContext(<Explore />);
-    });
-    checkID('explore-foods');
+    renderWithContext(<Explore />);
+    expect(await screen.findByTestId('explore-foods')).toBeInTheDocument();
+    hasFooter();
   });
 
   it('Check Explore Foods', async () => {
-    await act(async () => {
-      renderWithContext(<ExploreFoods />);
-    });
-    checkID('explore-by-ingredient');
-    checkID('explore-by-nationality');
-    checkID(EXPLORE_SURPRISE);
+    renderWithContext(<ExploreFoods />);
+    expect(await screen.findByTestId('explore-by-ingredient')).toBeInTheDocument();
+    expect(await screen.findByTestId('explore-by-nationality')).toBeInTheDocument();
+    expect(await screen.findByTestId(EXPLORE_SURPRISE)).toBeInTheDocument();
+    hasFooter();
   });
 
   it('Check Drinks', async () => {
-    await act(async () => {
-      renderWithContext(<Drinks />);
-    });
+    renderWithContext(<Drinks />);
+    await screen.findAllByText('Drinks');
     hasFooter();
   });
 
   it('Check Explore Drinks', async () => {
-    await act(async () => {
-      renderWithContext(<ExploreDrinks />);
-    });
-    checkID('explore-by-ingredient');
-    checkID(EXPLORE_SURPRISE);
+    renderWithContext(<ExploreDrinks />);
+    expect(await screen.findByTestId('page-title')).toBeInTheDocument();
+    expect(await screen.findByTestId('explore-by-ingredient')).toBeInTheDocument();
+    expect(await screen.findByTestId(EXPLORE_SURPRISE)).toBeInTheDocument();
+    hasFooter();
   });
 
   it('Check Profile', async () => {
-    await act(async () => {
-      renderWithContext(<Profile />);
-    });
-
-    checkID('page-title');
-    checkID('profile-email');
-    checkID('profile-done-btn');
-    checkID('profile-logout-btn');
+    renderWithContext(<Profile />);
+    expect(await screen.findByTestId('profile-email')).toBeInTheDocument();
+    expect(await screen.findByTestId('profile-done-btn')).toBeInTheDocument();
+    expect(await screen.findByTestId('profile-logout-btn')).toBeInTheDocument();
+    hasFooter();
   });
 
   it('Check Done recipes', async () => {
-    await act(async () => {
-      renderWithContext(<DoneRecipes />);
-    });
-
+    renderWithContext(<DoneRecipes />);
+    expect(await screen.findByTestId('filter-by-all-btn')).toBeInTheDocument();
+    expect(await screen.findByTestId('filter-by-food-btn')).toBeInTheDocument();
+    expect(await screen.findByTestId('filter-by-drink-btn')).toBeInTheDocument();
     hasNoFooter();
-
-    expect(screen.getByTestId('filter-by-all-btn')).toBeInTheDocument();
-    expect(screen.getByTestId('filter-by-food-btn')).toBeInTheDocument();
-    expect(screen.getByTestId('filter-by-drink-btn')).toBeInTheDocument();
   });
 
   it('Check Favorite recipes', async () => {
-    await act(async () => {
-      renderWithContext(<FavoriteRecipes />);
-    });
-
+    renderWithContext(<FavoriteRecipes />);
+    expect(await screen.findByTestId('filter-by-all-btn')).toBeInTheDocument();
+    expect(await screen.findByTestId('filter-by-food-btn')).toBeInTheDocument();
+    expect(await screen.findByTestId('filter-by-drink-btn')).toBeInTheDocument();
     hasNoFooter();
-
-    expect(screen.getByTestId('filter-by-all-btn')).toBeInTheDocument();
-    expect(screen.getByTestId('filter-by-food-btn')).toBeInTheDocument();
-    expect(screen.getByTestId('filter-by-drink-btn')).toBeInTheDocument();
   });
 });
