@@ -10,6 +10,7 @@ function Explore() {
       <Header title="Explore Foods" />
       <button
         data-testid="explore-foods"
+        value="Explore Foods"
         type="submit"
         onClick={ () => history.push('/explore/foods') }
       >
@@ -17,6 +18,7 @@ function Explore() {
       </button>
       <button
         data-testid="explore-drinks"
+        value="Explore Drinks"
         type="submit"
         onClick={ () => history.push('/explore/drinks') }
       >
