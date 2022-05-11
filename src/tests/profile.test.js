@@ -56,10 +56,7 @@ describe('Profile tests', () => {
   it('Test if localStorage is clean', async () => {
     renderWithContext(<Profile />);
 
-    const logoutBtn = await screen.findByTestId(LOGOUT);
-
-    expect(logoutBtn).toHaveValue('Logout');
-    fireEvent.click(logoutBtn);
+    fireEvent.click(await screen.findByTestId(LOGOUT));
 
     expect(localStorage.getItem('user')).toBeNull();
     expect(localStorage.getItem('mealsToken')).toBeNull();
