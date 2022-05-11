@@ -21,7 +21,7 @@ function Profile() {
         type="submit"
         onClick={ () => history.push('/favorite-recipes') }
         data-testid="profile-favorite-btn"
-        value="Done Recipes"
+        value="Favorite Recipes"
       >
         Favorite Recipes
       </button>
@@ -31,7 +31,7 @@ function Profile() {
           localStorage.clear();
           history.push('/');
         } }
-        value="Done Recipes"
+        value="Logout"
         data-testid="profile-logout-btn"
       >
         Logout
