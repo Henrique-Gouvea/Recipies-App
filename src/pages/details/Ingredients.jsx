@@ -34,7 +34,7 @@ function Ingredients({ value, testid }) {
                     key={ i }
                     data-testid={ `${i}${dataTest}` }
                   >
-                    { `${details[ingredient]} ${measure(i, details)}` }
+                    { `${details[ingredient]}${measure(i, details)}` }
                   </li>
                 ) : (
                   <label
