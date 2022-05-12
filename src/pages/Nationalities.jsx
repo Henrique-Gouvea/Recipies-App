@@ -1,12 +1,13 @@
 import React, { useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import Cards from '../components/Cards';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import AppFoodContext from '../context/AppFoodContext';
 import apiRequestbylink from '../services/apiRequestByLink';
 
-function Nationalities({ history }) {
+function Nationalities() {
+  const history = useHistory();
   const { foodCountry,
     nationaliteSelected,
     setNationaliteSelected,
@@ -52,11 +53,5 @@ function Nationalities({ history }) {
     </>
   );
 }
-
-Nationalities.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }),
-}.isRequired;
 
 export default Nationalities;
