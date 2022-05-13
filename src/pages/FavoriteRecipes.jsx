@@ -19,28 +19,19 @@ function FavoriteRecipes() {
     shareLink(setCopied, url);
   };
 
-  // const favorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
-  // console.table((favorites));
-  // console.log(Array.isArray(favorites));
-
   const handleFavorite = (id) => {
     const newFavorite = favorites.filter((el) => el.id !== id);
-    console.log(newFavorite);
     localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorite));
     setFavorites(newFavorite);
   };
 
   const handleDrinks = () => {
     const onlyDrinks = favorites.filter((el) => el.type !== 'food');
-    console.log(onlyDrinks);
-    // localStorage.setItem('favoriteRecipes', JSON.stringify(onlyDrinks));
     setFavorites(onlyDrinks);
   };
 
   const handleFoods = () => {
     const onlyFoods = favorites.filter((el) => el.type !== 'drink');
-    console.log(onlyFoods);
-    // localStorage.setItem('favoriteRecipes', JSON.stringify(onlyFoods));
     setFavorites(onlyFoods);
   };
 
@@ -60,7 +51,7 @@ function FavoriteRecipes() {
               aria-hidden="true"
               onClick={ () => history.push(`/${el.type}s/${el.id}`) }
             >
-              {`Name: ${el.name}`}
+              {el.name}
             </p>
             <img
               src={ el.image }
@@ -69,7 +60,6 @@ function FavoriteRecipes() {
               aria-hidden="true"
               onClick={ () => history.push(`/${el.type}s/${el.id}`) }
             />
-            {/* <p data-testid={`${index}-horizontal-top-text`}>{`Category: ${el.category}`}</p> */}
             <p
               data-testid={ `${index}-horizontal-top-text` }
             >
