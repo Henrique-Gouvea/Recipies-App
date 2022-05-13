@@ -2,7 +2,7 @@ import React from 'react';
 import { screen, cleanup, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithContext from './renderWithContext';
-import Login from '../pages/Login';
+import App from '../App';
 
 const EMAIL_ID = 'email-input';
 const PASSWORD_ID = 'password-input';
@@ -14,17 +14,15 @@ describe('Login tests', () => {
   afterEach(cleanup);
 
   it('Check screen elements', async () => {
-    renderWithContext(<Login />);
-    await screen.findByText('E-mail');
-    expect(screen.getByTestId(EMAIL_ID)).toBeInTheDocument();
+    renderWithContext(<App />);
+    expect(await screen.findByTestId(EMAIL_ID)).toBeInTheDocument();
     expect(screen.getByTestId(PASSWORD_ID)).toBeInTheDocument();
     expect(screen.getByTestId(BTN_ID)).toBeInTheDocument();
   });
 
   it('Check valid email, password and button status', async () => {
-    renderWithContext(<Login />);
-    await screen.findByText('E-mail');
-    const emailLogin = screen.getByTestId(EMAIL_ID);
+    renderWithContext(<App />);
+    const emailLogin = await screen.findByTestId(EMAIL_ID);
     const password = screen.getByTestId(PASSWORD_ID);
     const btn = screen.getByTestId(BTN_ID);
 
@@ -32,6 +30,12 @@ describe('Login tests', () => {
     userEvent.type(emailLogin, VALID_EMAIL);
     userEvent.type(password, 'five');
     expect(btn.disabled).toBeTruthy();
+
+    userEvent.type(emailLogin, 'email.com');
+    userEvent.type(password, VALID_PASSWORD);
+    expect(btn.disabled).toBeTruthy();
+
+    userEvent.type(emailLogin, VALID_EMAIL);
     userEvent.type(password, VALID_PASSWORD);
     expect(btn.disabled).toBeFalsy();
 
@@ -40,9 +44,8 @@ describe('Login tests', () => {
   });
 
   it('Check localStorage and route', async () => {
-    const { history } = renderWithContext(<Login />);
-    await screen.findByText('E-mail');
-    const emailLogin = screen.getByTestId(EMAIL_ID);
+    const { history } = renderWithContext(<App />);
+    const emailLogin = await screen.findByTestId(EMAIL_ID);
     const password = screen.getByTestId(PASSWORD_ID);
     const btn = screen.getByTestId(BTN_ID);
 
