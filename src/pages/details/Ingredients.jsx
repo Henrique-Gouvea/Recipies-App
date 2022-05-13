@@ -53,7 +53,7 @@ function Ingredients({ value, testid }) {
                       defaultChecked={ checkCheckbox(ingredient) }
                       onChange={ (e) => SaveProgress(value, ForD, e) }
                     />
-                    { `${details[ingredient]} ${measure(i, details)}` }
+                    { `${details[ingredient]}${measure(i, details)}` }
                   </label>
                 );
             }
