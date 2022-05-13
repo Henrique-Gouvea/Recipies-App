@@ -133,8 +133,8 @@ describe('Recipe list tests', () => {
     fireEvent.click(await screen.findByTestId('All-category-filter'));
     await checkFirstTwelveRecipes(drinksMock.drinks);
 
-    const corba = await screen.findByText('GG');
-    fireEvent.click(corba);
+    const GG = await screen.findByText('GG');
+    fireEvent.click(GG);
     expect(history.location.pathname).toBe(`/drinks/${drinksMock.drinks[0].idDrink}`);
   });
 });

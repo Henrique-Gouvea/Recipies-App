@@ -1,7 +1,7 @@
 import React from 'react';
 import { screen, cleanup, fireEvent } from '@testing-library/react';
 import renderWithContext from './renderWithContext';
-import Explore from '../pages/Explore';
+import App from '../App';
 
 const exploreFoods = 'explore-foods';
 const exploreDrinks = 'explore-drinks';
@@ -9,17 +9,24 @@ const exploreDrinks = 'explore-drinks';
 describe('Explore tests', () => {
   afterEach(cleanup);
 
-  it('Check screen elements', async () => {
-    const { history } = renderWithContext(<Explore />);
+  it('Check foods elements', async () => {
+    const { history } = renderWithContext(<App />);
+    history.push('/explore');
     const foodsBtn = await screen.findByTestId(exploreFoods);
-    const drinksBtn = await screen.findByTestId(exploreDrinks);
 
     expect(foodsBtn).toBeInTheDocument();
-    expect(drinksBtn).toBeInTheDocument();
 
     expect(foodsBtn).toHaveValue('Explore Foods');
     fireEvent.click(foodsBtn);
     expect(history.location.pathname).toBe('/explore/foods');
+  });
+
+  it('Check drinks elements', async () => {
+    const { history } = renderWithContext(<App />);
+    history.push('/explore');
+    const drinksBtn = await screen.findByTestId(exploreDrinks);
+
+    expect(drinksBtn).toBeInTheDocument();
 
     expect(drinksBtn).toHaveValue('Explore Drinks');
     fireEvent.click(drinksBtn);

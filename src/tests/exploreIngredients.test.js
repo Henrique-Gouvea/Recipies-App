@@ -1,67 +1,113 @@
 import React from 'react';
-import { screen, cleanup } from '@testing-library/react';
+import { screen, cleanup, fireEvent } from '@testing-library/react';
 import renderWithContext from './renderWithContext';
-import IngredientsDrinks from '../pages/ingredients/IngredientsDrinks';
-import IngredientsFoods from '../pages/ingredients/IngredientsFoods';
+import App from '../App';
 
 const mealsMock = require('../../cypress/mocks/mealIngredients');
 const drinksMock = require('../../cypress/mocks/drinkIngredients');
+const mealsByIngredientMock = require('../../cypress/mocks/mealsByIngredient');
+const drinksByIngredientMock = require('../../cypress/mocks/drinksByIngredient');
 
-const ingOne = '1-ingredient-card';
-const imgOne = '1-card-img';
-const nameOne = '1-card-name';
-const ingEleven = '11-ingredient-card';
-const imgEleven = '11-card-img';
-const nameEleven = '11-card-name';
+const FOOD_PATH = '/explore/foods/ingredients';
+const DRINK_PATH = '/explore/drinks/ingredients';
+const TWELVE = 12;
 
 describe('Explore ingredients tests', () => {
   afterEach(cleanup);
 
-  async function testCards() {
-    expect(await screen.findByTestId(ingOne && ingEleven)).toBeInTheDocument();
-    expect(await screen.findByTestId(imgOne && imgEleven)).toBeInTheDocument();
-    expect(await screen.findByTestId(nameOne && nameEleven)).toBeInTheDocument();
+  async function hasNull() {
     expect(await screen.queryByTestId('12-ingredient-card')).toBeNull();
     expect(await screen.queryByTestId('12-card-img')).toBeNull();
     expect(await screen.queryByTestId('12-card-name')).toBeNull();
   }
 
   it('Check Drinks screen elements', async () => {
-    renderWithContext(<IngredientsDrinks />);
-    testCards();
+    const { history } = renderWithContext(<App />);
+    history.push(DRINK_PATH);
+
+    await screen.findByTestId('0-ingredient-card');
+
+    for (let index = 0; index < TWELVE; index += 1) {
+      expect(screen.getByTestId(`${index}-ingredient-card`)).toBeInTheDocument();
+      expect(screen.getByTestId(`${index}-card-img`)).toBeInTheDocument();
+      expect(screen.getByTestId(`${index}-card-name`)).toBeInTheDocument();
+    }
+
+    await hasNull();
   });
 
   it('Check Drinks cards', async () => {
-    renderWithContext(<IngredientsDrinks />);
-    const img1 = await screen.findByTestId(imgOne);
-    const name1 = await screen.findByTestId(nameOne);
-    const img11 = await screen.findByTestId(imgEleven);
-    const name11 = await screen.findByTestId(nameEleven);
+    const { history } = renderWithContext(<App />);
+    history.push(DRINK_PATH);
 
-    expect(img1.src).toBe(`https://www.thecocktaildb.com/images/ingredients/${drinksMock.drinks[1].strIngredient1}-Small.png`);
-    expect(name1.innerHTML).toBe(drinksMock.drinks[1].strIngredient1);
+    await screen.findByTestId('0-card-img');
 
-    expect(img11.src).toBe(`https://www.thecocktaildb.com/images/ingredients/${drinksMock.drinks[11].strIngredient1}-Small.png`);
-    expect(name11.innerHTML).toBe(drinksMock.drinks[11].strIngredient1);
+    drinksMock.drinks.slice(0, TWELVE).forEach((ingredient, index) => {
+      expect(screen.getByTestId(`${index}-card-img`))
+        .toHaveAttribute('src', `https://www.thecocktaildb.com/images/ingredients/${ingredient.strIngredient1}-Small.png`);
+      expect(screen.getByTestId(`${index}-card-name`)
+        .textContent).toBe(ingredient.strIngredient1);
+    });
   });
 
   it('Check Foods screen elements', async () => {
-    renderWithContext(<IngredientsFoods />);
-    testCards();
+    const { history } = renderWithContext(<App />);
+    history.push(FOOD_PATH);
+
+    await screen.findByTestId('0-ingredient-card');
+
+    for (let index = 0; index < TWELVE; index += 1) {
+      expect(screen.getByTestId(`${index}-ingredient-card`)).toBeInTheDocument();
+      expect(screen.getByTestId(`${index}-card-img`)).toBeInTheDocument();
+      expect(screen.getByTestId(`${index}-card-name`)).toBeInTheDocument();
+    }
+
+    await hasNull();
   });
 
   it('Check Foods cards', async () => {
-    renderWithContext(<IngredientsFoods />);
-    const img1 = await screen.findByTestId(imgOne);
-    const name1 = await screen.findByTestId(nameOne);
-    const img11 = await screen.findByTestId(imgEleven);
-    const name11 = await screen.findByTestId(nameEleven);
+    const { history } = renderWithContext(<App />);
+    history.push(FOOD_PATH);
 
-    expect(img1.src).toBe(`https://www.themealdb.com/images/ingredients/${mealsMock.meals[1].strIngredient}-Small.png`);
-    expect(name1.innerHTML).toBe(mealsMock.meals[1].strIngredient);
+    await screen.findByTestId('0-card-img');
 
-    expect(img11.src.includes(mealsMock
-      .meals[11].strIngredient.split(' ')[0])).toBe(true);
-    expect(name11.innerHTML).toBe(mealsMock.meals[11].strIngredient);
+    mealsMock.meals.slice(0, TWELVE).forEach((ingredient, index) => {
+      expect(screen.getByTestId(`${index}-card-img`))
+        .toHaveAttribute('src', `https://www.themealdb.com/images/ingredients/${ingredient.strIngredient}-Small.png`);
+      expect(screen.getByTestId(`${index}-card-name`)
+        .textContent).toBe(ingredient.strIngredient);
+    });
+  });
+
+  it('Check Foods redirect', async () => {
+    const { history } = renderWithContext(<App />);
+    history.push(FOOD_PATH);
+
+    const ing = await screen.findByTestId('0-card-name');
+    fireEvent.click(ing);
+
+    mealsByIngredientMock.meals.slice(0, TWELVE).forEach((meal, index) => {
+      expect(screen.getByTestId(`${index}-recipe-card`)).toBeInTheDocument();
+      expect(screen.getByTestId(`${index}-card-img`))
+        .toHaveAttribute('src', meal.strMealThumb);
+      expect(screen.getByTestId(`${index}-card-name`)
+        .textContent).toBe(meal.strMeal);
+    });
+  });
+
+  it('Check drinks redirect', async () => {
+    const { history } = renderWithContext(<App />);
+    history.push(FOOD_PATH);
+
+    const ing = await screen.findByTestId('0-card-name');
+    fireEvent.click(ing);
+
+    drinksByIngredientMock.drinks.slice(0, TWELVE).forEach((drink, index) => {
+      expect(screen.getByTestId(`${index}-recipe-card`)).toBeInTheDocument();
+      expect(screen.getByTestId(`${index}-card-img`))
+        .toHaveAttribute('src', drink.strDrinkThumb);
+      expect(screen.getByTestId(`${index}-card-name`)
+        .textContent).toBe(drink.strDrink);
+    });
   });
 });
