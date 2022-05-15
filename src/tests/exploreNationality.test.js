@@ -14,6 +14,7 @@ const PATH = '/explore/foods/nationalities';
 const TWELVE = 12;
 const FIVE = 5;
 const carName = '0-card-name';
+const DROPDOWN = 'explore-by-nationality-dropdown';
 
 describe('Explore nationalities tests', () => {
   afterEach(cleanup);
@@ -51,7 +52,7 @@ describe('Explore nationalities tests', () => {
       expect(screen.queryByTestId(`${category}-category-filter`)).toBeNull();
     });
 
-    expect(await screen.findByTestId('explore-by-nationality-dropdown'))
+    expect(await screen.findByTestId(DROPDOWN))
       .toBeInTheDocument();
 
     areasMock.meals.forEach(({ strArea: area }) => {
@@ -77,7 +78,7 @@ describe('Explore nationalities tests', () => {
   it('Check select options', async () => {
     const { history } = renderWithContext(<App />);
     history.push(PATH);
-    const dropdown = await screen.findByTestId('explore-by-nationality-dropdown');
+    const dropdown = await screen.findByTestId(DROPDOWN);
 
     userEvent.selectOptions(dropdown, 'Japanese');
     checkFirstMeals(japaneseMealsMock.meals, FIVE);
@@ -110,7 +111,7 @@ describe('Explore nationalities tests', () => {
     const { history } = renderWithContext(<App />);
     history.push(PATH);
 
-    const dropdown = await screen.findByTestId('explore-by-nationality-dropdown');
+    const dropdown = await screen.findByTestId(DROPDOWN);
 
     userEvent.selectOptions(dropdown, 'Japanese');
     checkFirstMeals(japaneseMealsMock.meals, FIVE);

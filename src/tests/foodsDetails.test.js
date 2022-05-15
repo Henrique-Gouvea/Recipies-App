@@ -106,6 +106,11 @@ describe('Details tests', () => {
       expect(screen.getByTestId(`${index}-recomendation-title`)
         .textContent).toBe(titleArr[index]);
     }
+
+    expect(await screen.findByText('Left')).toBeInTheDocument();
+    expect(await screen.findByText('Right')).toBeInTheDocument();
+    fireEvent.click(await screen.findByText('Left'));
+    fireEvent.click(await screen.findByText('Right'));
   });
 
   it('Check start button', async () => {
