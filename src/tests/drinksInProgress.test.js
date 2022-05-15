@@ -119,4 +119,44 @@ describe('Drinks inProgress tests', () => {
     const finishBtn = await screen.findByTestId(FINISH_BTN);
     expect(finishBtn).toHaveProperty('disabled', true);
   });
+
+  it('Check localstorage remove function', async () => {
+    const { history } = renderWithContext(<App />);
+    history.push(DRINK_PATH);
+
+    const input = await screen.findByTestId('0-ingredient-step');
+    const checkbox = input.querySelector('input[type="checkbox"]');
+    fireEvent.click(checkbox);
+    expect(checkbox).toHaveProperty('checked', true);
+
+    const getInProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    expect(getInProgressRecipes).toEqual(
+      { cocktails: { 178319: ['Hpnotiq'] }, meals: {} },
+    );
+
+    fireEvent.click(checkbox);
+
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    expect(inProgressRecipes).toEqual({ cocktails: {}, meals: {} });
+  });
+
+  // it('Check localstorage remove 1/2 function', async () => {
+  //   const { history } = renderWithContext(<App />);
+  //   history.push(DRINK_PATH);
+
+  //   const input = await screen.findByTestId('0-ingredient-step');
+  //   const inputTwo = await screen.findByTestId('1-ingredient-step');
+
+  //   const checkbox = input.querySelector('input[type="checkbox"]');
+  //   fireEvent.click(checkbox);
+  //   expect(checkbox).toHaveProperty('checked', true);
+
+  //   const checkboxTwo = inputTwo.querySelector('input[type="checkbox"]');
+  //   fireEvent.click(checkboxTwo);
+  //   expect(checkboxTwo).toHaveProperty('checked', true);
+  //   fireEvent.click(checkbox);
+
+  //   const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //   expect(inProgressRecipes).toEqual({ cocktails: {}, meals: {} });
+  // });
 });
