@@ -18,7 +18,7 @@ function Recommendeds({ value }) {
   return (
     <section className="container">
       <h5>Recommendeds</h5>
-      <div className="carousel" data-testid="recomendation-card" ref={ carousel }>
+      <div className="carousel" ref={ carousel }>
         { recommendeds && recommendeds.map((item, i) => (
           <div className="item" key={ i } data-testid={ `${i}-recomendation-card` }>
             <img
