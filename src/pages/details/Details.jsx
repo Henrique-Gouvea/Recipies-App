@@ -10,7 +10,7 @@ import Video from './Video';
 import { storageObj } from '../../services/utilities';
 import './Details.css';
 
-function FoodDetails() {
+function Details() {
   const { recipeFoods, recipeDrinks } = useContext(AppFoodContext);
   const [details, setDetails] = useState('');
   const [recommendeds, setRecommendeds] = useState('');
@@ -121,4 +121,4 @@ function FoodDetails() {
   );
 }
 
-export default FoodDetails;
+export default Details;

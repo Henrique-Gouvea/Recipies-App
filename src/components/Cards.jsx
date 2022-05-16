@@ -8,8 +8,7 @@ function Cards({ FoodOrDrink }) {
   const numberMaxCards = 12;
 
   return (
-    <>
-      <p>.</p>
+    <section className="cards">
       {FoodOrDrink
       // && (categoryArr.categorie && categoryArr ? categoryArr : FoodOrDrink)
       && (categoryArr || FoodOrDrink)
@@ -38,7 +37,7 @@ function Cards({ FoodOrDrink }) {
             </p>
           </div>
         )).slice(0, numberMaxCards)}
-    </>
+    </section>
   );
 }
 

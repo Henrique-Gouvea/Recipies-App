@@ -1,14 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
-function Explore({ history }) {
+function Explore() {
+  const history = useHistory();
   return (
     <>
-      <Header title="Explore Foods" />
+      <Header title="Explore" />
       <button
         data-testid="explore-foods"
+        value="Explore Foods"
         type="submit"
         onClick={ () => history.push('/explore/foods') }
       >
@@ -16,6 +18,7 @@ function Explore({ history }) {
       </button>
       <button
         data-testid="explore-drinks"
+        value="Explore Drinks"
         type="submit"
         onClick={ () => history.push('/explore/drinks') }
       >
@@ -25,11 +28,5 @@ function Explore({ history }) {
     </>
   );
 }
-
-Explore.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }),
-}.isRequired;
 
 export default Explore;

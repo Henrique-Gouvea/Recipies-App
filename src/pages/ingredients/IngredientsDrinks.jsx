@@ -11,13 +11,13 @@ function IngredientsDrinks() {
   return (
     <>
       <Header title="Explore Ingredients" />
+      {/* <h1>Ingredients Drinks</h1> */}
       <div
         aria-hidden="true"
         // onClick={ history.push() }
       >
         <IngredientsCard FoodOrDrink={ drinkIngredients } />
       </div>
-      <h1>IngredientsDrinks</h1>
       <Footer />
     </>
   );

@@ -34,7 +34,7 @@ function Ingredients({ value, testid }) {
                     key={ i }
                     data-testid={ `${i}${dataTest}` }
                   >
-                    { `${details[ingredient]} ${measure(i, details)}` }
+                    { `${details[ingredient]}${measure(i, details)}` }
                   </li>
                 ) : (
                   <label
@@ -42,18 +42,18 @@ function Ingredients({ value, testid }) {
                     htmlFor={ `input-${i}` }
                     className="checkbox"
                     data-testid={ `${i}${dataTest}` }
-                    style={ checkCheckbox(ingredient)
-                      ? { textDecoration: 'line-through' }
-                      : { textDecoration: 'none' } }
+                    style={ {
+                      textDecoration: checkCheckbox(ingredient) && 'line-through',
+                    } }
                   >
                     <input
-                      defaultChecked={ checkCheckbox(ingredient) }
                       id={ `input-${i}` }
                       type="checkbox"
                       value={ details[ingredient] }
+                      defaultChecked={ checkCheckbox(ingredient) }
                       onChange={ (e) => SaveProgress(value, ForD, e) }
                     />
-                    { `${details[ingredient]} ${measure(i, details)}` }
+                    { `${details[ingredient]}${measure(i, details)}` }
                   </label>
                 );
             }

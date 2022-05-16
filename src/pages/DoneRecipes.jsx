@@ -12,9 +12,7 @@ function DoneRecipes() {
 
   useEffect(() => {
     setDoneRecipes(JSON.parse(localStorage.getItem('doneRecipes')));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(doneRecipes);
 
   const handleclick = (id, type) => {
     const url = `http://localhost:3000/${type}s/${id}`;

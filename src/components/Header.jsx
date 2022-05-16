@@ -4,14 +4,14 @@ import { useHistory } from 'react-router-dom';
 import AppFoodContext from '../context/AppFoodContext';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
-import apiRequestByLink from '../services/apiRequestByLink';
+import SearchFilter from './SearchFilter';
 
 function Header({ title, btnSearch }) {
   const history = useHistory();
 
   const [hideSearchBar, showSearchBar] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const option = history.location.pathname.replace(/[^a-zA-Z]+/g, '');
+  const option = history.location.pathname.split('/')[1];
 
   const {
     radioValue,
@@ -31,40 +31,14 @@ function Header({ title, btnSearch }) {
     }
   };
 
-  const handlFilter = async () => {
-    switch (true) {
-    case radioValue === 'ingredientID' && option === 'foods':
-      apiRequestByLink(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputValue}`)
-        .then((e) => {
-          setRecipeFoods(e.meals);
-        });
-      break;
-    case radioValue === 'ingredientID' && option === 'drinks':
-      apiRequestByLink(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputValue}`)
-        .then((e) => setRecipeDrinks(e.drinks));
-      break;
-    case radioValue === 'nameSearchID' && option === 'foods':
-      apiRequestByLink(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`)
-        .then((e) => setRecipeFoods(e.meals));
-      break;
-    case radioValue === 'nameSearchID' && option === 'drinks':
-      apiRequestByLink(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputValue}`)
-        .then((e) => setRecipeDrinks(e.drinks));
-      break;
-    case radioValue === 'firstLetterID' && inputValue.length > 1:
-      global.alert('Your search must have only 1 (one) character');
-      break;
-    case radioValue === 'firstLetterID' && option === 'foods':
-      apiRequestByLink(`https://www.themealdb.com/api/json/v1/1/search.php?f=${inputValue}`)
-        .then((e) => setRecipeFoods(e.meals));
-      break;
-    case radioValue === 'firstLetterID' && option === 'drinks':
-      apiRequestByLink(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputValue}`)
-        .then((e) => setRecipeDrinks(e.drinks));
-      break;
-    default: console.log('errou');
-    }
+  const values = {
+    option,
+    setRecipeFoods,
+    setRecipeDrinks,
+    inputValue,
+    radioValue,
   };
+
   return (
     <header className="header">
       <h1 data-testid="page-title">
@@ -140,7 +114,7 @@ function Header({ title, btnSearch }) {
               id="butonExecID"
               type="button"
               data-testid="exec-search-btn"
-              onClick={ handlFilter }
+              onClick={ () => SearchFilter(values) }
             >
               Search
             </button>

@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import AppFoodContext from '../context/AppFoodContext';
 
-function Login({ history }) {
+function Login() {
+  const history = useHistory();
   const {
     emailLogin,
     setEmailLogin,
@@ -59,11 +60,5 @@ function Login({ history }) {
     </label>
   );
 }
-
-Login.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }),
-}.isRequired;
 
 export default Login;

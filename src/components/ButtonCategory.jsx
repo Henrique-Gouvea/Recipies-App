@@ -24,7 +24,7 @@ function ButtonCategory({ categories, food }) {
   };
 
   return (
-    <>
+    <section className="categories">
       {categories
         ? categories.slice(0, limitButtonCategory)
           .map((cat) => (
@@ -46,7 +46,7 @@ function ButtonCategory({ categories, food }) {
       >
         All category
       </button>
-    </>
+    </section>
   );
 }
 
