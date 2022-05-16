@@ -114,6 +114,7 @@ describe('Done recipes tests', () => {
     });
 
     const shareBtn = await screen.findByTestId(H_SHARE);
+    // expect(shareBtn).toBeInTheDocument();// Diego
 
     fireEvent.click(shareBtn);
     expect(window.navigator.clipboard.writeText)

@@ -1,7 +1,9 @@
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+// import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { Route, Switch } from 'react-router-dom';
+// import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
 import Login from './pages/Login';
 import Foods from './pages/Foods';
 import Drinks from './pages/Drinks';
@@ -30,7 +32,11 @@ function App() {
         <Route exact path="/explore/drinks" component={ ExploreDrinks } />
         <Route exact path="/done-recipes" component={ DoneRecipes } />
         <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
-        <Route exact path="/explore/drinks/ingredients" component={ IngredientsDrinks } />
+        <Route
+          exact
+          path="/explore/drinks/ingredients"
+          component={ IngredientsDrinks }
+        />
         <Route exact path="/explore/foods/ingredients" component={ IngredientsFoods } />
         <Route exact path="/explore/foods/nationalities" component={ Nationalities } />
         <Route exact path="/foods/:id" component={ Details } />
