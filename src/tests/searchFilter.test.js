@@ -61,14 +61,14 @@ describe('SearchBar for foods', () => { // OK!
     fireEvent.click(search);
     expect(screen.getAllByRole('button')[2]).toBeInTheDocument();
   });
-  it('Check SearchBtn in SearchBar for foods', () => { // OK!
+  it('Check if alert windowf appears', () => { // OK!
     const { history } = renderWithContext(<App />);
     history.push(PATH_FOODS);
     const search = screen.getAllByRole('button')[1];
     fireEvent.click(search);
-    const xablau = screen.getByText('xablau');
+    // const xablau = (screen.getByRole('textbox')).type('xablau');
     const SearchBtn = expect(screen.getAllByRole('button')[2]);
     fireEvent.click(SearchBtn);
-    expect(screen.getByRole('alertdialog').toHaveBeenCalled());
+    expect(screen.getByRole('alert')).type('xablau');
   });
 });
