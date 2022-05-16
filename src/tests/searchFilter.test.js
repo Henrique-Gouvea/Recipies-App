@@ -4,7 +4,8 @@ import userEvent from '@testing-library/user-event';
 import renderWithContext from './renderWithContext';
 import App from '../App';
 // import SearchFilter from '../components/SearchFilter';
-
+const PATH_FOODS = '/foods';
+const PATH_DRINKS = '/drinks';
 const SEARCH_ID = 'search-top-btn';
 const SEARCH_INPUT = 'search-input';
 const EXEC_BTN = 'exec-search-btn';
@@ -17,6 +18,61 @@ describe('SearchFilter tests', () => {
   // it('Check SearchFilter func', async () => {
   //   SearchFilter();
   // });
+
+  it('Check TextBox', () => { // OK!
+    const { history } = renderWithContext(<App />);
+    history.push(PATH_FOODS);
+    const search = screen.getAllByRole('button')[1];
+    fireEvent.click(search);
+    expect(screen.getByRole('textbox', {
+      name: /SearchBar/i })).toBeInTheDocument();
+  });
+  it('Check radio itens for foods', () => { // OK!
+    const { history } = renderWithContext(<App />);
+    history.push(PATH_FOODS);
+    const search = screen.getAllByRole('button')[1];
+    fireEvent.click(search);
+    expect(screen.getByRole('radio', {
+      name: /ingredient/i })).toBeInTheDocument();
+    expect(screen.getByRole('radio', {
+      name: /name/i })).toBeInTheDocument();
+    expect(screen.getByRole('radio', {
+      name: /first letter/i })).toBeInTheDocument();
+  });
+  it('Check SearchBtn in SearchBar for foods', () => { // OK!
+    const { history } = renderWithContext(<App />);
+    history.push(PATH_FOODS);
+    const search = screen.getAllByRole('button')[1];
+    fireEvent.click(search);
+    expect(screen.getAllByRole('button')[2]).toBeInTheDocument();
+  });
+  it('Check TextBox for drinks', () => { // OK!
+    const { history } = renderWithContext(<App />);
+    history.push(PATH_DRINKS);
+    const search = screen.getAllByRole('button')[1];
+    fireEvent.click(search);
+    expect(screen.getByRole('textbox', {
+      name: /SearchBar/i })).toBeInTheDocument();
+  });
+  it('Check radio itens for drinks', () => { // OK!
+    const { history } = renderWithContext(<App />);
+    history.push(PATH_DRINKS);
+    const search = screen.getAllByRole('button')[1];
+    fireEvent.click(search);
+    expect(screen.getByRole('radio', {
+      name: /ingredient/i })).toBeInTheDocument();
+    expect(screen.getByRole('radio', {
+      name: /name/i })).toBeInTheDocument();
+    expect(screen.getByRole('radio', {
+      name: /first letter/i })).toBeInTheDocument();
+  });
+  it('Check SearchBtn in SearchBar for drinks', () => { // OK!
+    const { history } = renderWithContext(<App />);
+    history.push(PATH_DRINKS);
+    const search = screen.getAllByRole('button')[1];
+    fireEvent.click(search);
+    expect(screen.getAllByRole('button')[2]).toBeInTheDocument();
+  });
 
   it('Test first letter filter alert', async () => {
     const { history } = renderWithContext(<App />);
