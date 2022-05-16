@@ -1,74 +1,92 @@
 import React from 'react';
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, cleanup, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import renderWithContext from './renderWithContext';
 import App from '../App';
+// import SearchFilter from '../components/SearchFilter';
 
-const PATH_FOODS = '/foods';
-const PATH_DRINKS = '/drinks';
+const SEARCH_ID = 'search-top-btn';
+const SEARCH_INPUT = 'search-input';
+const EXEC_BTN = 'exec-search-btn';
 
-describe('SearchBar for foods', () => { // OK!
-  it('Check TextBox', () => { // OK!
+describe('SearchFilter tests', () => {
+  afterEach(cleanup);
+
+  const globalAlertMock = jest.spyOn(window, 'alert').mockImplementation();
+
+  // it('Check SearchFilter func', async () => {
+  //   SearchFilter();
+  // });
+
+  it('Test first letter filter alert', async () => {
     const { history } = renderWithContext(<App />);
-    history.push(PATH_FOODS);
-    const search = screen.getAllByRole('button')[1];
-    fireEvent.click(search);
-    expect(screen.getByRole('textbox', {
-      name: /SearchBar/i })).toBeInTheDocument();
+    history.push('/foods');
+
+    const searchBtn = await screen.findByTestId(SEARCH_ID);
+    fireEvent.click(searchBtn);
+
+    const inputSearch = await screen.findByTestId(SEARCH_INPUT);
+    userEvent.type(inputSearch, 'top');
+
+    const fLRadio = await screen.findByTestId('first-letter-search-radio');
+    fireEvent.click(fLRadio);
+
+    const execBtn = await screen.findByTestId(EXEC_BTN);
+    fireEvent.click(execBtn);
+    expect(globalAlertMock).toHaveBeenCalled();
   });
-  it('Check radio itens for foods', () => { // OK!
+
+  it('Test first letter filter', async () => {
     const { history } = renderWithContext(<App />);
-    history.push(PATH_FOODS);
-    const search = screen.getAllByRole('button')[1];
-    fireEvent.click(search);
-    expect(screen.getByRole('radio', {
-      name: /ingredient/i })).toBeInTheDocument();
-    expect(screen.getByRole('radio', {
-      name: /name/i })).toBeInTheDocument();
-    expect(screen.getByRole('radio', {
-      name: /first letter/i })).toBeInTheDocument();
+    history.push('/foods');
+
+    const searchBtn = await screen.findByTestId(SEARCH_ID);
+    fireEvent.click(searchBtn);
+
+    const inputSearch = await screen.findByTestId(SEARCH_INPUT);
+    userEvent.type(inputSearch, 'B');
+
+    const fLRadio = await screen.findByTestId('first-letter-search-radio');
+    fireEvent.click(fLRadio);
+
+    const execBtn = await screen.findByTestId(EXEC_BTN);
+    fireEvent.click(execBtn);
+    expect(await screen.findByText('Bakewell tart')).toBeInTheDocument();
   });
-  it('Check SearchBtn in SearchBar for foods', () => { // OK!
+
+  it('Test ingredient filter', async () => {
     const { history } = renderWithContext(<App />);
-    history.push(PATH_FOODS);
-    const search = screen.getAllByRole('button')[1];
-    fireEvent.click(search);
-    expect(screen.getAllByRole('button')[2]).toBeInTheDocument();
+    history.push('/foods');
+
+    const searchBtn = await screen.findByTestId(SEARCH_ID);
+    fireEvent.click(searchBtn);
+
+    const inputSearch = await screen.findByTestId(SEARCH_INPUT);
+    userEvent.type(inputSearch, 'Thyme');
+
+    const ingredientRadio = await screen.findByTestId('ingredient-search-radio');
+    fireEvent.click(ingredientRadio);
+
+    const execBtn = await screen.findByTestId(EXEC_BTN);
+    fireEvent.click(execBtn);
+    expect(await screen.findByText('Beef and Mustard Pie')).toBeInTheDocument();
   });
-  it('Check TextBox for drinks', () => { // OK!
+
+  it('Test name filter alert and redirect', async () => {
     const { history } = renderWithContext(<App />);
-    history.push(PATH_DRINKS);
-    const search = screen.getAllByRole('button')[1];
-    fireEvent.click(search);
-    expect(screen.getByRole('textbox', {
-      name: /SearchBar/i })).toBeInTheDocument();
-  });
-  it('Check radio itens for drinks', () => { // OK!
-    const { history } = renderWithContext(<App />);
-    history.push(PATH_DRINKS);
-    const search = screen.getAllByRole('button')[1];
-    fireEvent.click(search);
-    expect(screen.getByRole('radio', {
-      name: /ingredient/i })).toBeInTheDocument();
-    expect(screen.getByRole('radio', {
-      name: /name/i })).toBeInTheDocument();
-    expect(screen.getByRole('radio', {
-      name: /first letter/i })).toBeInTheDocument();
-  });
-  it('Check SearchBtn in SearchBar for drinks', () => { // OK!
-    const { history } = renderWithContext(<App />);
-    history.push(PATH_DRINKS);
-    const search = screen.getAllByRole('button')[1];
-    fireEvent.click(search);
-    expect(screen.getAllByRole('button')[2]).toBeInTheDocument();
-  });
-  it('Check if alert windowf appears', () => { // OK!
-    const { history } = renderWithContext(<App />);
-    history.push(PATH_FOODS);
-    const search = screen.getAllByRole('button')[1];
-    fireEvent.click(search);
-    // const xablau = (screen.getByRole('textbox')).type('xablau');
-    const SearchBtn = expect(screen.getAllByRole('button')[2]);
-    fireEvent.click(SearchBtn);
-    expect(screen.getByRole('alert')).type('xablau');
+    history.push('/foods');
+
+    const searchBtn = await screen.findByTestId(SEARCH_ID);
+    fireEvent.click(searchBtn);
+
+    const inputSearch = await screen.findByTestId(SEARCH_INPUT);
+    userEvent.type(inputSearch, 'Corba');
+
+    const nameRadio = await screen.findByTestId('name-search-radio');
+    fireEvent.click(nameRadio);
+
+    const execBtn = await screen.findByTestId(EXEC_BTN);
+    fireEvent.click(execBtn);
+    expect(history.location.pathname).toBe('/foods');
   });
 });

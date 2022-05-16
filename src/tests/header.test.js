@@ -1,8 +1,10 @@
 import React from 'react';
 import { screen, cleanup, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import renderWithContext from './renderWithContext';
 import App from '../App';
 import Login from '../pages/Login';
+// import SearchFilter from '../components/SearchFilter';
 
 const PROFILE_ID = 'profile-top-btn';
 const TITLE_ID = 'page-title';
@@ -144,6 +146,17 @@ describe('Header tests', () => {
     await hasHeader('Favorite Recipes', true);
   });
 
+  // it('Check search filter func', async () => {
+  //   const { history } = renderWithContext(<App />);
+  //   history.push('/foods');
+  //   const searchBtn = await screen.findByTestId(SEARCH_ID);
+  //   fireEvent.click(searchBtn);
+  //   const searchFilter = await screen.findByTestId('exec-search-btn');
+
+  //   fireEvent.click(searchFilter);
+  //   expect(SearchFilter()).toHaveBeenCalled();
+  // });
+
   it('Test header buttons', async () => {
     const { history } = renderWithContext(<App />);
     history.push(PATH);
@@ -159,5 +172,19 @@ describe('Header tests', () => {
 
     fireEvent.click(btn);
     expect(history.location.pathname).toBe('/profile');
+  });
+
+  it('Test handleChange function', async () => {
+    const { history } = renderWithContext(<App />);
+    history.push('/foods');
+    const searchBtn = await screen.findByTestId(SEARCH_ID);
+    fireEvent.click(searchBtn);
+    const inputSearch = await screen.findByTestId(SEARCH_INPUT);
+    userEvent.type(inputSearch, 'Corba');
+    expect(inputSearch.value).toBe('Corba');
+
+    const ingredientRadio = await screen.findByTestId('ingredient-search-radio');
+    userEvent.click(ingredientRadio);
+    expect(ingredientRadio.value).toBe('on');
   });
 });

@@ -124,4 +124,24 @@ describe('Foods inProgress tests', () => {
     const finishBtn = await screen.findByTestId(FINISH_BTN);
     expect(finishBtn).toHaveProperty('disabled', true);
   });
+
+  it('Check localstorage remove function', async () => {
+    const { history } = renderWithContext(<App />);
+    history.push(FOOD_PATH);
+
+    const input = await screen.findByTestId('0-ingredient-step');
+    const checkbox = input.querySelector('input[type="checkbox"]');
+    fireEvent.click(checkbox);
+    expect(checkbox).toHaveProperty('checked', true);
+
+    const getInProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    expect(getInProgressRecipes).toEqual(
+      { cocktails: {}, meals: { 52771: ['penne rigate'] } },
+    );
+
+    fireEvent.click(checkbox);
+
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    expect(inProgressRecipes).toEqual({ cocktails: {}, meals: {} });
+  });
 });
